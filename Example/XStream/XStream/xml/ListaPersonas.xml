@@ -1,0 +1,23 @@
+<Personas>
+  <listaPersonas>
+    <Persona>
+      <nombreCompleto>
+        <nombre>Pedro</nombre>
+        <apellido1>Perez</apellido1>
+        <apellido2>Sanchez</apellido2>
+      </nombreCompleto>
+      <edad>5</edad>
+    </Persona>
+    <Persona>
+      <nombreCompleto>
+        <nombre>Paco</nombre>
+        <apellido1>Lopez</apellido1>
+        <apellido2>Ruiz</apellido2>
+      </nombreCompleto>
+      <edad>8</edad>
+    </Persona>
+  </listaPersonas>
+  <outer-class>
+    <personas reference="../.."/>
+  </outer-class>
+</Personas>

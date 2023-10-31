@@ -1,0 +1,3 @@
+{
+	"java.project.referencedLibraries": ["lib/**/*.jar", "XStream/jar/kxml2-2.3.0.jar", "XStream/jar/xstream-1.4.20.jar"]
+}

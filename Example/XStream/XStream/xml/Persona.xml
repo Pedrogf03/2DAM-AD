@@ -1,0 +1,8 @@
+<xstream.serializaraxml.Persona>
+  <nombreCompleto>
+    <nombre>Juanito</nombre>
+    <apellido1>Perez</apellido1>
+    <apellido2>Sanchez</apellido2>
+  </nombreCompleto>
+  <edad>5</edad>
+</xstream.serializaraxml.Persona>

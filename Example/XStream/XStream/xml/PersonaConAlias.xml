@@ -1,0 +1,8 @@
+<Persona>
+  <nombreCompleto>
+    <nombre>Juanito</nombre>
+    <primerapellido>Perez</primerapellido>
+    <segundoapellido>Sanchez</segundoapellido>
+  </nombreCompleto>
+  <edad>5</edad>
+</Persona>
