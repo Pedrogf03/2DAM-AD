@@ -38,6 +38,7 @@ public class Consultas {
     System.out.println("5-. Para cada NOMBRE de departamento el salario medio de sus empleados\r\n" + //
         "    y el APELLIDO y SALARIO del empleado con mayor salario");
     consulta5();
+    System.out.println();
 
   }
 
