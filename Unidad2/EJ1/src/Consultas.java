@@ -176,11 +176,15 @@ public class Consultas {
 
         consulta = "SELECT AVG(salario) FROM empleados WHERE dept_no = " + result.getInt(2);
         ResultSet result2 = conn.createStatement().executeQuery(consulta);
-        System.out.println("-Salario medio:  " + result2.getInt(1));
+        if (result2.next()) {
+          System.out.println("-Salario medio:  " + result2.getInt(1));
+        }
 
         consulta = "SELECT MAX(salario) FROM empleados WHERE dept_no = " + result.getInt(2);
         result2 = conn.createStatement().executeQuery(consulta);
-        System.out.println("-Salario máximo: " + result2.getInt(1));
+        if (result2.next()) {
+          System.out.println("-Salario máximo: " + result2.getInt(1));
+        }
 
       }
 
@@ -219,11 +223,15 @@ public class Consultas {
 
         consulta = "SELECT AVG(salario) FROM empleados WHERE dept_no = " + result.getInt(2);
         ResultSet result2 = conn.createStatement().executeQuery(consulta);
-        System.out.println("-Salario medio:  " + result2.getInt(1));
+        if (result2.next()) {
+          System.out.println("-Salario medio:  " + result2.getInt(1));
+        }
 
-        consulta = "SELECT apellido, MAX(salario) FROM empleados WHERE dept_no = " + result.getInt(2);
+        consulta = "SELECT apellido, salario FROM empleados WHERE dept_no = " + result.getInt(2) + " AND salario = (SELECT MAX(salario) FROM empleados WHERE dept_no = " + +result.getInt(2) + ")";
         result2 = conn.createStatement().executeQuery(consulta);
-        System.out.println("-Salario máximo: " + result2.getString(1) + " " + result2.getInt(2));
+        if (result2.next()) {
+          System.out.println("-Salario máximo de " + result2.getString(1) + ": " + result2.getInt(2));
+        }
 
       }
 
