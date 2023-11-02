@@ -16,14 +16,27 @@ public class Consultas {
   static String db_passwd = "123456";
 
   public static void main(String[] args) {
+
+    System.out.println("1-. APELLIDO, OFICIO y SALARIO de los empleados del departamento 10: ");
     consulta1();
     System.out.println();
+
+    System.out.println("2-. APELLIDO y SALARIO del empleado con mayor salario: ");
     consulta2();
     System.out.println();
+
+    System.out.println("3-. Nombres y Localización de los departamentos (ordenados alfabéticamente) y, para cada departamento,\r\n" + //
+        "    APELLIDO y OFICIO de los empleados que trabajan en cada uno de ellos (ordenados también alfabéticamente): ");
     consulta3();
     System.out.println();
+
+    System.out.println("4-. Para cada NOMBRE de departamento el salario medio de sus empleados\r\n" + //
+        "    y el SALARIO del empleado con mayor salario: ");
     consulta4();
     System.out.println();
+
+    System.out.println("5-. Para cada NOMBRE de departamento el salario medio de sus empleados\r\n" + //
+        "    y el APELLIDO y SALARIO del empleado con mayor salario");
     consulta5();
 
   }
@@ -45,7 +58,6 @@ public class Consultas {
       // Se ejecuta la consulta.
       ResultSet result = conn.createStatement().executeQuery(consulta);
 
-      System.out.println();
       System.out.printf("%-10s %-10s %-5s\n", "APELLIDO", "OFICIO", "SALARIO");
       System.out.println("-----------------------------");
       while (result.next()) {
@@ -119,7 +131,7 @@ public class Consultas {
       while (result.next()) {
         System.out.printf("%-15s %-10s:\n", result.getString(1), result.getString(2));
 
-        consulta = "SELECT apellido, oficio FROM empleados WHERE dept_no = " + result.getInt(3);
+        consulta = "SELECT apellido, oficio FROM empleados WHERE dept_no = " + result.getInt(3) + " ORDER BY apellido ASC";
         ResultSet result2 = conn.createStatement().executeQuery(consulta);
 
         while (result2.next()) {
