@@ -40,7 +40,11 @@ public class Consultas {
     consulta5();
     System.out.println();
 
-    System.out.println("6.-");
+    System.out.println("6.- Obtener, para cada departamento, el APELLIDO y SALARIO de los empleados\r\n" + //
+        "    cuyo salario representa los cuartiles Q1, Q2, Q3 de los salarios de los empleados del departamento\r\n" + //
+        "    (Q1: salario del primer empleado con un salario >= 25% de los empleados del departamento\r\n" + //
+        "     Q2: salario del primer empleado con un salario >= 50% de los empleados del departamento (mediana)\r\n" + //
+        "     Q3: salario del primer empleado con un salario >= 75% de los empleados del departamento)");
     consulta6();
     System.out.println();
 
@@ -285,36 +289,36 @@ public class Consultas {
         if (result2.next()) {
           int maxSalario = result2.getInt(1);
 
-          System.out.println(maxSalario);
+          System.out.println("Salario máximo: " + maxSalario);
 
           int q1 = maxSalario * 25 / 100;
 
-          consulta = "SELECT MIN(salario) FROM empleados WHERE salario >= " + q1 + " AND dept_no = " + result.getInt(2);
+          consulta = "SELECT apellido, salario FROM empleados WHERE salario = (SELECT MIN(salario) FROM empleados WHERE salario >= " + q1 + " AND dept_no = " + result.getInt(2) + ")";
 
           ResultSet result3 = conn.createStatement().executeQuery(consulta);
 
           if (result3.next()) {
-            System.out.println("Q1 (" + q1 + "): " + result3.getInt(1));
+            System.out.println("Q3 (" + q1 + "): " + result3.getString(1) + " " + result3.getInt(2));
           }
 
           int q2 = maxSalario * 50 / 100;
 
-          consulta = "SELECT MIN(salario) FROM empleados WHERE salario >= " + q2 + " AND dept_no = " + result.getInt(2);
+          consulta = "SELECT apellido, salario FROM empleados WHERE salario = (SELECT MIN(salario) FROM empleados WHERE salario >= " + q2 + " AND dept_no = " + result.getInt(2) + ")";
 
           result3 = conn.createStatement().executeQuery(consulta);
 
           if (result3.next()) {
-            System.out.println("Q2 (" + q2 + "): " + result3.getInt(1));
+            System.out.println("Q3 (" + q2 + "): " + result3.getString(1) + " " + result3.getInt(2));
           }
 
           int q3 = maxSalario * 75 / 100;
 
-          consulta = "SELECT MIN(salario) FROM empleados WHERE salario >= " + q3 + " AND dept_no = " + result.getInt(2);
+          consulta = "SELECT apellido, salario FROM empleados WHERE salario = (SELECT MIN(salario) FROM empleados WHERE salario >= " + q3 + " AND dept_no = " + result.getInt(2) + ")";
 
           result3 = conn.createStatement().executeQuery(consulta);
 
           if (result3.next()) {
-            System.out.println("Q3 (" + q3 + "): " + result3.getInt(1));
+            System.out.println("Q3 (" + q3 + "): " + result3.getString(1) + " " + result3.getInt(2));
           }
 
           result3.close();
