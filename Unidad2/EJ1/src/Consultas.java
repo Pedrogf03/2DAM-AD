@@ -3,12 +3,12 @@ import java.sql.*;
 public class Consultas {
 
   // ---------------------- SQLite ----------------------
-  static String driver = "org.sqlite.JDBC";
-  static String url = "jdbc:sqlite:C:/Users/bleik/Desktop/sqlite/ejemplo.db";
+  // static String driver = "org.sqlite.JDBC";
+  // static String url = "jdbc:sqlite:C:/Users/bleik/Desktop/sqlite/ejemplo.db";
 
   // ---------------------- MySQL -----------------------
-  // static String driver = "com.mysql.cj.jdbc.Driver";
-  // static String url = "jdbc:mysql://localhost/empresa";
+  static String driver = "com.mysql.cj.jdbc.Driver";
+  static String url = "jdbc:mysql://localhost/empresa";
 
   // ---------------- Parámetros de BBDD ----------------
   static String db_drivers = driver;
@@ -17,27 +17,31 @@ public class Consultas {
 
   public static void main(String[] args) {
 
-    System.out.println("1-. APELLIDO, OFICIO y SALARIO de los empleados del departamento 10: ");
+    System.out.println("1.- APELLIDO, OFICIO y SALARIO de los empleados del departamento 10: ");
     consulta1();
     System.out.println();
 
-    System.out.println("2-. APELLIDO y SALARIO del empleado con mayor salario: ");
+    System.out.println("2.- APELLIDO y SALARIO del empleado con mayor salario: ");
     consulta2();
     System.out.println();
 
-    System.out.println("3-. Nombres y Localización de los departamentos (ordenados alfabéticamente) y, para cada departamento,\r\n" + //
+    System.out.println("3.- Nombres y Localización de los departamentos (ordenados alfabéticamente) y, para cada departamento,\r\n" + //
         "    APELLIDO y OFICIO de los empleados que trabajan en cada uno de ellos (ordenados también alfabéticamente): ");
     consulta3();
     System.out.println();
 
-    System.out.println("4-. Para cada NOMBRE de departamento el salario medio de sus empleados\r\n" + //
+    System.out.println("4.- Para cada NOMBRE de departamento el salario medio de sus empleados\r\n" + //
         "    y el SALARIO del empleado con mayor salario: ");
     consulta4();
     System.out.println();
 
-    System.out.println("5-. Para cada NOMBRE de departamento el salario medio de sus empleados\r\n" + //
+    System.out.println("5.- Para cada NOMBRE de departamento el salario medio de sus empleados\r\n" + //
         "    y el APELLIDO y SALARIO del empleado con mayor salario");
     consulta5();
+    System.out.println();
+
+    System.out.println("6.-");
+    consulta6();
     System.out.println();
 
   }
@@ -139,6 +143,8 @@ public class Consultas {
           System.out.printf("-%-10s %-10s\n", result2.getString(1), result2.getString(2));
         }
 
+        result2.close();
+
       }
 
       result.close();
@@ -186,6 +192,8 @@ public class Consultas {
           System.out.println("-Salario máximo: " + result2.getInt(1));
         }
 
+        result2.close();
+
       }
 
       result.close();
@@ -232,6 +240,88 @@ public class Consultas {
         if (result2.next()) {
           System.out.println("-Salario máximo de " + result2.getString(1) + ": " + result2.getInt(2));
         }
+
+        result2.close();
+
+      }
+
+      result.close();
+      conn.close();
+
+    } catch (ClassNotFoundException e) {
+      System.out.println("No se han encontrado los drivers " + db_drivers);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  // ---------- Ejercicio 6 ----------
+  public static void consulta6() {
+
+    // Consulta que se quiere hacer.
+    String consulta = "SELECT dnombre, dept_no FROM departamentos";
+
+    try {
+
+      // Cargar los drives en RAM.
+      Class.forName(db_drivers);
+
+      // Conexión a la BBDD
+      Connection conn = DriverManager.getConnection(url, db_user, db_passwd);
+
+      // Se ejecuta la consulta.
+      ResultSet result = conn.createStatement().executeQuery(consulta);
+
+      System.out.printf("%-15s\n", "DEPARTAMENTO");
+      System.out.println("----------------------------");
+      while (result.next()) {
+        System.out.println(result.getString(1) + ":");
+
+        consulta = "SELECT MAX(salario) FROM empleados WHERE dept_no = " + result.getInt(2);
+
+        ResultSet result2 = conn.createStatement().executeQuery(consulta);
+
+        if (result2.next()) {
+          int maxSalario = result2.getInt(1);
+
+          System.out.println(maxSalario);
+
+          int q1 = maxSalario * 25 / 100;
+
+          consulta = "SELECT MIN(salario) FROM empleados WHERE salario >= " + q1 + " AND dept_no = " + result.getInt(2);
+
+          ResultSet result3 = conn.createStatement().executeQuery(consulta);
+
+          if (result3.next()) {
+            System.out.println("Q1 (" + q1 + "): " + result3.getInt(1));
+          }
+
+          int q2 = maxSalario * 50 / 100;
+
+          consulta = "SELECT MIN(salario) FROM empleados WHERE salario >= " + q2 + " AND dept_no = " + result.getInt(2);
+
+          result3 = conn.createStatement().executeQuery(consulta);
+
+          if (result3.next()) {
+            System.out.println("Q2 (" + q2 + "): " + result3.getInt(1));
+          }
+
+          int q3 = maxSalario * 75 / 100;
+
+          consulta = "SELECT MIN(salario) FROM empleados WHERE salario >= " + q3 + " AND dept_no = " + result.getInt(2);
+
+          result3 = conn.createStatement().executeQuery(consulta);
+
+          if (result3.next()) {
+            System.out.println("Q3 (" + q3 + "): " + result3.getInt(1));
+          }
+
+          result3.close();
+
+        }
+
+        result2.close();
 
       }
 
