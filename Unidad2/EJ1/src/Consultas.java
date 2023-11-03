@@ -1,5 +1,9 @@
 import java.sql.*;
 
+import javax.xml.transform.Result;
+
+import com.mysql.cj.protocol.Resultset;
+
 public class Consultas {
 
   // ---------------------- SQLite ----------------------
@@ -282,50 +286,43 @@ public class Consultas {
       while (result.next()) {
         System.out.println(result.getString(1) + ":");
 
-        consulta = "SELECT MAX(salario) FROM empleados WHERE dept_no = " + result.getInt(2);
+        consulta = "SELECT count(salario) FROM empleados WHERE dept_no = " + result.getInt(2);
 
         ResultSet result2 = conn.createStatement().executeQuery(consulta);
 
         if (result2.next()) {
-          int maxSalario = result2.getInt(1);
 
-          System.out.println("Salario máximo: " + maxSalario);
+          double count = result2.getInt(1) * 1.0;
 
-          int q1 = maxSalario * 25 / 100;
+          System.out.println("Registros totales: " + Math.round(count));
 
-          consulta = "SELECT apellido, salario FROM empleados WHERE salario = (SELECT MIN(salario) FROM empleados WHERE salario >= " + q1 + " AND dept_no = " + result.getInt(2) + ")";
+          if (count != 0) {
+            // Cuartil 1
+            long q1 = Math.round(count * 25.0 / 100.0);
+            consulta = "SELECT salario FROM empleados WHERE dept_no = " + result.getInt(2) + " ORDER BY salario ASC LIMIT 1 OFFSET " + (q1 - 1);
+            ResultSet result3 = conn.createStatement().executeQuery(consulta);
+            if (result3.next()) {
+              System.out.println("Cuartil 1 -> " + result3.getInt(1));
+            }
 
-          ResultSet result3 = conn.createStatement().executeQuery(consulta);
+            // Cuartil 2
+            long q2 = Math.round(count * 50.0 / 100.0);
+            consulta = "SELECT salario FROM empleados WHERE dept_no = " + result.getInt(2) + " ORDER BY salario ASC LIMIT 1 OFFSET " + (q2 - 1);
+            result3 = conn.createStatement().executeQuery(consulta);
+            if (result3.next()) {
+              System.out.println("Cuartil 2 -> " + result3.getInt(1));
+            }
 
-          if (result3.next()) {
-            System.out.println("Q3 (" + q1 + "): " + result3.getString(1) + " " + result3.getInt(2));
+            // Cuartil 3
+            long q3 = Math.round(count * 75.0 / 100.0);
+            consulta = "SELECT salario FROM empleados WHERE dept_no = " + result.getInt(2) + " ORDER BY salario ASC LIMIT 1 OFFSET " + (q3 - 1);
+            result3 = conn.createStatement().executeQuery(consulta);
+            if (result3.next()) {
+              System.out.println("Cuartil 3 -> " + result3.getInt(1));
+            }
           }
-
-          int q2 = maxSalario * 50 / 100;
-
-          consulta = "SELECT apellido, salario FROM empleados WHERE salario = (SELECT MIN(salario) FROM empleados WHERE salario >= " + q2 + " AND dept_no = " + result.getInt(2) + ")";
-
-          result3 = conn.createStatement().executeQuery(consulta);
-
-          if (result3.next()) {
-            System.out.println("Q3 (" + q2 + "): " + result3.getString(1) + " " + result3.getInt(2));
-          }
-
-          int q3 = maxSalario * 75 / 100;
-
-          consulta = "SELECT apellido, salario FROM empleados WHERE salario = (SELECT MIN(salario) FROM empleados WHERE salario >= " + q3 + " AND dept_no = " + result.getInt(2) + ")";
-
-          result3 = conn.createStatement().executeQuery(consulta);
-
-          if (result3.next()) {
-            System.out.println("Q3 (" + q3 + "): " + result3.getString(1) + " " + result3.getInt(2));
-          }
-
-          result3.close();
 
         }
-
-        result2.close();
 
       }
 
