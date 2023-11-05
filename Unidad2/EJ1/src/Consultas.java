@@ -1,9 +1,5 @@
 import java.sql.*;
 
-import javax.xml.transform.Result;
-
-import com.mysql.cj.protocol.Resultset;
-
 public class Consultas {
 
   // ---------------------- SQLite ----------------------
