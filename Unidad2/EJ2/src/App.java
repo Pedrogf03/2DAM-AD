@@ -409,14 +409,83 @@ public class App {
             break;
           }
 
-          System.out.printf("%-2s %-10s %-15s\n", "ID", "NOMBRE", "LOCALIZACION");
+          System.out.printf("%-2s %-15s %-15s\n", "ID", "NOMBRE", "LOCALIZACION");
           while (rs.next()) {
-            System.out.printf("%-2d %-10s %-15s\n", rs.getInt(1), rs.getString(2), rs.getString(3));
+            System.out.printf("%-2d %-15s %-15s\n", rs.getInt(1), rs.getString(2), rs.getString(3));
           }
 
         }
 
       case "EMPLEADOS":
+
+        while (true) {
+
+          System.out.println("----------------------------------------------------------------------");
+          System.out.println("1.- Mostrar todos los empleados.");
+          System.out.println("2.- Mostrar todos los empleados según su departamento.");
+          System.out.println("3.- Mostrar todos los empleados según la localización del departamento.");
+          System.out.println("0.- Salir.");
+
+          int option = Integer.parseInt(sc.nextLine());
+
+          if (option == 0) {
+            break;
+          }
+
+          PreparedStatement ps = null;
+
+          ResultSet rs0 = null;
+          ResultSet rs1 = null;
+          ResultSet rs = null;
+
+          switch (option) {
+          case 1:
+            rs = conn.createStatement().executeQuery("SELECT * FROM empleados;");
+            break;
+          case 2:
+            System.out.println("Nombre del departamento: ");
+            String dnombre = sc.nextLine();
+            ps = conn.prepareStatement("SELECT dept_no FROM departamentos WHERE dnombre = ?;");
+            ps.setString(1, dnombre);
+            rs0 = ps.executeQuery();
+
+            if (rs0.next()) {
+              rs = conn.createStatement().executeQuery("SELECT * FROM empleados WHERE dept_no = " + rs0.getInt(1));
+            }
+
+            break;
+          case 3:
+            System.out.println("Localización del departamento: ");
+            String loc = sc.nextLine();
+            ps = conn.prepareStatement("SELECT dept_no FROM departamentos WHERE loc = ?;");
+            ps.setString(1, loc);
+            rs1 = ps.executeQuery();
+
+            if (rs1.next()) {
+              rs = conn.createStatement().executeQuery("SELECT * FROM empleados WHERE dept_no = " + rs1.getInt(1));
+            }
+
+            break;
+          default:
+            break;
+          }
+
+          if (rs != null) {
+            System.out.printf("%-4s %-13s %-13s %-4s %-15s %-10s %-10s %-15s\n", "ID", "APELLIDO", "OFICIO", "DIR", "FECHA ALTA", "SALARIO", "COMISION", "DEPARTAMENTO");
+            System.out.println("----------------------------------------------------------------------------------------");
+            while (rs.next()) {
+
+              ResultSet rs2 = conn.createStatement().executeQuery("SELECT dnombre FROM departamentos WHERE dept_no = " + rs.getInt(8));
+
+              if (rs2.next()) {
+                System.out.printf("%-4d %-13s %-13s %-4d %-15s %-10d %-10d %-15s\n", rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDate(5), rs.getInt(6), rs.getInt(7), rs2.getString(1));
+
+              }
+
+            }
+          }
+
+        }
 
       default:
         break;
