@@ -1,5 +1,5 @@
 import java.sql.*;
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class GestionEmpleados2 {
 
@@ -127,9 +127,9 @@ public class GestionEmpleados2 {
     String ciudad;
 
     System.out.println("Indique la ciudad");
-    ciudad = new Scanner(System.in).nextLine();
+    //ciudad = new Scanner(System.in).nextLine();
 
-    //ciudad=new String("BARCELONA");
+    ciudad = new String("BARCELONA");
     //ciudad=new String("BARCELONA' OR loc LIKE '%");  
 
     String query = "SELECT * FROM departamentos WHERE loc=" + "'" + ciudad + "'";
@@ -170,9 +170,9 @@ public class GestionEmpleados2 {
     String ciudad;
 
     System.out.println("Indique la ciudad");
-    ciudad = new Scanner(System.in).nextLine();
+    //ciudad = new Scanner(System.in).nextLine();
 
-    //ciudad=new String("BARCELONA");
+    ciudad = new String("BARCELONA");
     //ciudad=new String("BARCELONA' OR loc LIKE '%");  
 
     String query = "SELECT * FROM departamentos WHERE loc=?";
