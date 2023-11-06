@@ -1,7 +1,12 @@
 {
-    "java.project.sourcePaths": ["src"],
-    "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar"
-    ]
+  "java.project.sourcePaths": ["src"],
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar",
+    "c:\\Users\\bleik\\Desktop\\AD\\Unidad2\\EJ1\\lib\\mysql-connector-j-8.1.0.jar",
+    "c:\\Users\\bleik\\Desktop\\AD\\Unidad2\\EJ1\\lib\\slf4j-api-2.0.9.jar",
+    "c:\\Users\\bleik\\Desktop\\AD\\Unidad2\\EJ1\\lib\\slf4j-nop-2.0.9.jar",
+    "c:\\Users\\bleik\\Desktop\\AD\\Unidad2\\EJ1\\lib\\sqlite-jdbc-3.43.2.1.jar"
+  ],
+  "java.format.settings.url": ".vscode/java-formatter.xml"
 }
