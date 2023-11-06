@@ -7,12 +7,12 @@ import java.util.Scanner;
 public class App {
 
   // ---------------------- SQLite ----------------------
-  // static String driver = "org.sqlite.JDBC";
-  // static String url = "jdbc:sqlite:C:/Users/bleik/Desktop/sqlite/ejemplo.db";
+  static String driver = "org.sqlite.JDBC";
+  static String url = "jdbc:sqlite:C:/Users/bleik/Desktop/sqlite/ejemplo.db";
 
-  // ---------------------- MySQL -----------------------
-  static String driver = "com.mysql.cj.jdbc.Driver";
-  static String url = "jdbc:mysql://localhost/empresa";
+  // // ---------------------- MySQL -----------------------
+  // static String driver = "com.mysql.cj.jdbc.Driver";
+  // static String url = "jdbc:mysql://localhost/empresa";
 
   // ---------------- Parámetros de BBDD ----------------
   static String db_drivers = driver;
@@ -153,7 +153,7 @@ public class App {
         System.out.println("Dir del empleado: ");
         int dir = Integer.parseInt(sc.nextLine());
 
-        System.out.println("Fecha de alta del empleado: ");
+        System.out.println("Fecha de alta del empleado (yyyy/mm/dd): ");
         String fecha_alt = sc.nextLine();
 
         System.out.println("Salario del empleado: ");
@@ -177,6 +177,7 @@ public class App {
         rows = ps.executeUpdate();
 
         if (rows > 0) {
+          System.out.println("Registro insertado con éxito.");
           return 0;
         } else {
           return 1;
