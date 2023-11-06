@@ -62,13 +62,13 @@ public class App {
             insertInto(tabla);
             break;
           case 2:
-            System.out.println("Bajas con la tabla " + tabla);
+            System.out.println("Bajas con la tabla " + tabla); // TODO
             break;
           case 3:
-            System.out.println("Actualizar la tabla " + tabla);
+            System.out.println("Actualizar la tabla " + tabla); // TODO
             break;
           case 4:
-            System.out.println("Consultar la tabla " + tabla);
+            System.out.println("Consultar la tabla " + tabla); // TODO
             break;
           default:
             break;
