@@ -79,13 +79,13 @@ public class DatabaseMetaDataExample {
   public static void main(String[] args) {
 
     // metadataDBMSandDriverExample();
-    metadataDBMSFeaturesExample();
+    // metadataDBMSFeaturesExample();
     // metadataDBTablesExample();
     // metadataDBGetColumnsOfaTableExample();
     // metadataDBGetPrymaryKeyOfaTableExample();
     // metadataDBGetExportedKeyOfaTableExample();
     // metadataDBGetImportedKeyOfaTableExample();
-    // metadataDBGetProceduresExample();
+    metadataDBGetProceduresExample();
     // metadataDBResultSetMetadataExample();
   }
 
@@ -242,19 +242,18 @@ public class DatabaseMetaDataExample {
         String catalogo = result.getString(1);
         //String catalogo = result.getString("TABLE_CAT");
 
-        //String esquema = result.getString(2);
+        // String esquema = result.getString(2);
         String esquema = result.getString("TABLE_SCHEM");
 
         String tabla = result.getString(3);
         //String tabla = result.getString("TABLE_NAME");
 
-        //String tipo = result.getString(4);     
-        String tipo = result.getString("TABLE_TYPE");
+        String tipo = result.getString(4);
+        // String tipo = result.getString("TABLE_TYPE");
 
-        System.out.println(tipo + "   Catalogo: " + catalogo +
-            "   Esquema : " + esquema +
-            "   Nombre  : " + tabla +
-            "   Tipo    : " + tipo);
+        System.out
+            .println(
+                tipo + " Catalogo: " + catalogo + ", Esquema: " + esquema + ", Nombre: " + tabla + ", Tipo: " + tipo);
       }
 
       conexion.close();
@@ -382,11 +381,8 @@ public class DatabaseMetaDataExample {
         //String nula = columnas.getString(18);     
         String nula = columnas.getString("IS_NULLABLE");
 
-        System.out.println("   Tabla:       : " + nombreTabla +
-            "   Columna      : " + nombreColumna +
-            "   Tipo         : " + tipoColumna +
-            "   Tamaño       : " + tamanoColumna +
-            "   Admite nulos : " + nula);
+        System.out.println("Tabla: " + nombreTabla + ", Columna: " + nombreColumna + ", Tipo: " + tipoColumna
+            + ", Tamaño: " + tamanoColumna + ", Admite nulos: " + nula);
       }
 
       conexion.close();
