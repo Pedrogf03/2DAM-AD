@@ -89,6 +89,8 @@ public class Consultas {
 
     // Consulta que se quiere hacer.
     String consulta = "SELECT apellido, salario FROM empleados WHERE salario = (SELECT MAX(salario) from empleados)";
+    // String consulta = "SELECT MAX(salario), apellido from empleados";
+    // String consulta = "SELECT apellido, maxSal FROM empleados, (SELECT MAX(salario) AS maxSal from empleados) AS t2 WHERE salario = maxSal";
 
     try {
 
