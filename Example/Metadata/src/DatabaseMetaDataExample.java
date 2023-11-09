@@ -80,12 +80,12 @@ public class DatabaseMetaDataExample {
 
     // metadataDBMSandDriverExample();
     // metadataDBMSFeaturesExample();
-    // metadataDBTablesExample();
+    metadataDBTablesExample();
     // metadataDBGetColumnsOfaTableExample();
     // metadataDBGetPrymaryKeyOfaTableExample();
     // metadataDBGetExportedKeyOfaTableExample();
     // metadataDBGetImportedKeyOfaTableExample();
-    metadataDBGetProceduresExample();
+    // metadataDBGetProceduresExample();
     // metadataDBResultSetMetadataExample();
   }
 
@@ -227,7 +227,7 @@ public class DatabaseMetaDataExample {
 
       //----->Show information about each table or view in this DB
 
-      ResultSet result = dbmd.getTables(null, dbName, null, null); //All kind of tables
+      ResultSet result = dbmd.getTables(null, null, null, null); //All kind of tables
 
       //String[] elementos= new String[1];
       //elementos[0]="TABLE";
@@ -719,12 +719,14 @@ public class DatabaseMetaDataExample {
       String nula;
       System.out.println("Número de columas de las tuplas de la consulta: " + nColumnas);
 
+      System.out.println();
+
       //Interrogamos al objeto ResultSetMetaData, para cada una de las columnas
 
       for (int i = 1; i <= nColumnas; i++) {
         System.out.println("Columna " + i + ":");
-        System.out.println("Nombre :" + rsmd.getColumnName(i));
-        System.out.println("Tipo : " + rsmd.getColumnTypeName(i));
+        System.out.println("Nombre: " + rsmd.getColumnName(i));
+        System.out.println("Tipo: " + rsmd.getColumnTypeName(i));
 
         if (rsmd.isNullable(i) == 0)
           nula = "NO";
@@ -733,6 +735,8 @@ public class DatabaseMetaDataExample {
         System.out.println("¿Puede ser nula: " + nula);
 
         System.out.println("Máximo ancho de la coluimna: " + rsmd.getColumnDisplaySize(i));
+
+        System.out.println();
       }
 
       rs.close(); //close ResultSet
