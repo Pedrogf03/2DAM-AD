@@ -70,6 +70,8 @@ public class App {
 
     }
 
+    sc.close();
+
   }
 
   public static void checkDB(String dbName) {
