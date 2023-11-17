@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class SAXParserCalificaciones {
-  
+
   String currentElement;
   public Calificaciones calificaciones;
   public String currentAlumno;
@@ -22,7 +22,7 @@ public class SAXParserCalificaciones {
       SAXParserFactory factory = SAXParserFactory.newInstance();
       SAXParser saxParser = factory.newSAXParser();
       saxParser.parse(f, new MyHandler());
-    } catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
@@ -32,16 +32,15 @@ public class SAXParserCalificaciones {
 
     @Override
     public void startElement(
-      String uri,
-      String localName,
-      String qName,
-      Attributes attributes
-    ) throws SAXException {
+        String uri,
+        String localName,
+        String qName,
+        Attributes attributes) throws SAXException {
 
       currentElement = qName;
 
-      if(currentElement.equals("calificaciones")) {
-        
+      if (currentElement.equals("calificaciones")) {
+
         String nombreAsignatura = attributes.getValue("asignatura");
         String tipo = attributes.getValue("tipo");
         String fecha = attributes.getValue("fecha");
@@ -56,13 +55,12 @@ public class SAXParserCalificaciones {
 
     }
 
-    @Override 
-    public void characters(char[] chars, 
-    int start, 
-    int length
-    ) throws SAXException {
-      
-      if(currentElement.equals("alumno")) {
+    @Override
+    public void characters(char[] chars,
+        int start,
+        int length) throws SAXException {
+
+      if (currentElement.equals("alumno")) {
 
         calificaciones.alumnos.put(currentAlumno, new String(chars, start, length));
 
@@ -72,10 +70,9 @@ public class SAXParserCalificaciones {
 
     @Override
     public void endElement(
-      String uri, 
-      String localName, 
-      String qName
-      ) throws SAXException {
+        String uri,
+        String localName,
+        String qName) throws SAXException {
       currentElement = "";
     }
 
@@ -86,13 +83,13 @@ public class SAXParserCalificaciones {
     File curso = new File("curso.dat");
 
     try {
-      if(!curso.exists()) {
+      if (!curso.exists()) {
         curso.createNewFile();
       }
-    } catch (IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
     }
-    
+
     int option;
     Scanner sc = new Scanner(System.in);
 
@@ -114,7 +111,7 @@ public class SAXParserCalificaciones {
 
           try {
             importarXML(calificaciones, curso);
-          } catch (Exception e){
+          } catch (Exception e) {
             e.printStackTrace();
           }
 
@@ -123,9 +120,9 @@ public class SAXParserCalificaciones {
           System.out.println("Indique el nombre del alumno:");
           alu = sc.nextLine();
 
-          try{
+          try {
             consultaNotas(alu, curso);
-          } catch(Exception e) {
+          } catch (Exception e) {
             e.printStackTrace();
           }
 
@@ -134,33 +131,32 @@ public class SAXParserCalificaciones {
           System.out.println("Indique el nombre del alumno:");
           alu = sc.nextLine();
 
-          try{
+          try {
             eliminarAlumno(alu, curso);
-          } catch(Exception e) {
+          } catch (Exception e) {
             e.printStackTrace();
           }
 
           break;
-      
+
         default:
           break;
       }
 
-    } while(option != 0);
+    } while (option != 0);
 
     sc.close();
 
   }
 
   // Función que, dado un xml con el formato especificado en la hoja del examen, importa los datos al fichero curso.
-  public static void importarXML(File xml, File curso) throws IOException{
+  public static void importarXML(File xml, File curso) throws IOException {
 
     // El SAXParser devuelve objeto calificaciones.
     Calificaciones c = new SAXParserCalificaciones(xml).calificaciones;
 
-    try(
-      RandomAccessFile puntero = new RandomAccessFile(curso, "rw");
-    ) {
+    try (
+        RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
 
       long pos = puntero.length(); //Tamaño del archivo.
       puntero.seek(pos); // Se coloca el puntero en la posicion especifica.
@@ -169,7 +165,8 @@ public class SAXParserCalificaciones {
       for (Map.Entry<String, String> entry : c.alumnos.entrySet()) {
 
         // Se escribe en el archivo curso los datos.
-        puntero.writeBytes(entry.getKey() + ";;" + c.nombreAsignatura + ";;" + c.tipo + ";;" + c.fecha + ";;" + entry.getValue() + ";;0\n");
+        puntero.writeBytes(entry.getKey() + ";;" + c.nombreAsignatura + ";;" + c.tipo + ";;" + c.fecha + ";;"
+            + entry.getValue() + ";;0\n");
 
       }
 
@@ -180,11 +177,10 @@ public class SAXParserCalificaciones {
   }
 
   // Funcion que devuelve todas las calificaciones del alumno.
-  public static void consultaNotas(String alu, File curso) throws IOException{
+  public static void consultaNotas(String alu, File curso) throws IOException {
 
-    try(
-      RandomAccessFile puntero = new RandomAccessFile(curso, "rw");
-    ) {
+    try (
+        RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
 
       // Se coloca el puntero al inicio del archivo.
       puntero.seek(0);
@@ -193,11 +189,11 @@ public class SAXParserCalificaciones {
 
       // Por cada coincidencia con el nombre, se escriben sus datos.
       String line;
-      while((line = puntero.readLine()) != null) {
+      while ((line = puntero.readLine()) != null) {
 
         String[] partes = line.split(";;");
 
-        if(partes[0].equals(alu) && partes[5].equals("0")) {
+        if (partes[0].equals(alu) && partes[5].equals("0")) {
 
           System.out.println();
           System.out.println("Asignatura: " + partes[1]);
@@ -215,24 +211,23 @@ public class SAXParserCalificaciones {
   }
 
   // Funcion que elimina todos los datos de un alumno,
-  public static void eliminarAlumno(String alu, File curso) throws IOException{
+  public static void eliminarAlumno(String alu, File curso) throws IOException {
 
-    try(
-      RandomAccessFile puntero = new RandomAccessFile(curso, "rw");
-    ) {
+    try (
+        RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
 
       // Se coloca el puntero al inicio.
       long posicionActual = 0;
       puntero.seek(posicionActual);
 
       String line;
-      while((line = puntero.readLine()) != null) {
+      while ((line = puntero.readLine()) != null) {
 
         String[] partes = line.split(";;");
 
         // Por cada coincidencia con el nombre.
-        if(partes[0].equals(alu) && partes[5].equals("0")) {
-          
+        if (partes[0].equals(alu) && partes[5].equals("0")) {
+
           // Se borra lógicamente.
           partes[5] = "1";
           line = String.join(";;", partes);
@@ -246,7 +241,7 @@ public class SAXParserCalificaciones {
 
       }
 
-    }  
+    }
 
   }
 
