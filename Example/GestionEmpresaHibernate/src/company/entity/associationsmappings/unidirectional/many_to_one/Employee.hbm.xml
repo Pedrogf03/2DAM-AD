@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="company.entity.associationsmappings.unidirectional.many_to_one.Employee" 
+           table="EMPLOYEE_MANY_TO_ONE"> 
+        <meta attribute="class-description"> This class contains the employee detail. </meta> 
+        <id name="id" type="int" column="id"> 
+            <generator class="native"/> 
+        </id>        
+
+       <!--The <many-to-one> element indicates that many Employee objects 
+           can be related to one (the same) Address object and, as such, 
+           the Employee object must have an Address object associated 
+           with it.
+           -The 'name' attribute is set to the defined variable in the parent class,
+            in our case it is address, that must be mapped.
+           -The 'column' attribute is used to set the column name in the parent table
+           EMPLOYEE_MANY_TO_ONE that is the target of the mapping.
+           -The 'class' attribute is used to describe the class of the mapped value
+           -The 'not-null' attribute sets if null values are allowed
+        -->
+        <many-to-one name="address" column="address" 
+                     class="company.entity.associationsmappings.unidirectional.many_to_one.Address"
+                     not-null="true"/>
+        <property name="firstName" column="first_name" type="string"/> 
+        <property name="lastName" column="last_name" type="string"/> 
+        <property name="salary" column="salary" type="int"/> 
+    </class> 
+</hibernate-mapping>

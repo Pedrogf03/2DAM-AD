@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <!DOCTYPE hibernate-configuration SYSTEM 
+  "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration> 
+    <session-factory> 
+        
+        <!-- Datos necesarios para la conexión con la BD --> 
+        <property name="hibernate.dialect"> org.hibernate.dialect.MySQLDialect </property> 
+        <property name="hibernate.connection.driver_class"> com.mysql.jdbc.Driver </property> 
+        <property name="hibernate.connection.url"> jdbc:mysql://localhost:3306/companyhibernate?zeroDateTimeBehavior=convertToNull </property> 
+        <property name="hibernate.connection.username"> root </property> 
+        <property name="hibernate.connection.password"> password </property>
+        
+        <!-- Configuración de algunos parámetros de Hibernate-->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
+       
+        <!--                 List of XML mapping files                --> 
+        
+        <!--Collections Mappings-->
+        
+      <!--
+        <mapping resource="company/entity/singleentity/Employee.hbm.xml"/>
+      -->  
+      <!--Set
+        <mapping resource="company/entity/collectionsmappings/b_set_one_to_many/Employee.hbm.xml"/>
+       
+        <mapping resource="company/entity/collectionsmappings/b_set_one_to_many/Certificate.hbm.xml"/>
+     --> 
+     
+      <!-- SortedSet 
+        <mapping resource="company/entity/collectionsmappings/c_sortedset_one_to_many/Employee.hbm.xml"/>
+        
+        <mapping resource="company/entity/collectionsmappings/c_sortedset_one_to_many/Certificate.hbm.xml"/>
+       -->
+      <!--List
+       <mapping resource="company/entity/collectionsmappings/d_list_one_to_many/Employee.hbm.xml"/>
+        
+       <mapping resource="company/entity/collectionsmappings/d_list_one_to_many/Certificate.hbm.xml"/>  
+      -->
+      <!-- Bag (Collection)
+       <mapping resource="company/entity/collectionsmappings/e_bag_one_to_many/Employee.hbm.xml"/>
+        
+       <mapping resource="company/entity/collectionsmappings/e_bag_one_to_many/Certificate.hbm.xml"/>     
+     -->  
+      <!-- Map
+       <mapping resource="company/entity/collectionsmappings/f_map_one_to_many/Employee.hbm.xml"/>
+        
+       <mapping resource="company/entity/collectionsmappings/f_map_one_to_many/Certificate.hbm.xml"/> 
+     --> 
+     <!-- SortedMap
+        <mapping resource="company/entity/collectionsmappings/g_sortedmap_one_to_many/Employee.hbm.xml"/>
+        
+        <mapping resource="company/entity/collectionsmappings/g_sortedmap_one_to_many/Certificate.hbm.xml"/>   
+     -->
+     
+     <!--Associations Mappings-->
+     
+     <!-- many-to-one unidirectional
+    <mapping resource="company/entity/associationsmappings/unidirectional/many_to_one/Address.hbm.xml"/>
+    <mapping resource="company/entity/associationsmappings/unidirectional/many_to_one/Employee.hbm.xml"/>
+    -->
+    
+    <!-- one-to-one unidirectional on foreign key
+    <mapping resource="company/entity/associationsmappings/unidirectional/one_to_one/fk/Address.hbm.xml"/>
+    <mapping resource="company/entity/associationsmappings/unidirectional/one_to_one/fk/Employee.hbm.xml"/>
+    -->
+    <!-- one-to-one unidirectional on prymary key
+    <mapping resource="company/entity/associationsmappings/unidirectional/one_to_one/pk/Employee.hbm.xml"/>
+    <mapping resource="company/entity/associationsmappings/unidirectional/one_to_one/pk/Address.hbm.xml"/>
+    -->
+   <!-- one-to-many unidirectional-->
+    <mapping resource="company/entity/associationsmappings/unidirectional/one_to_many/Employee.hbm.xml"/>
+    <mapping resource="company/entity/associationsmappings/unidirectional/one_to_many/Certificate.hbm.xml"/>
+    
+    <!-- many-to-many unidirectional join table
+    <mapping resource="company/entity/associationsmappings/unidirectional/many_to_many/jointable/Employee.hbm.xml"/>
+    <mapping resource="company/entity/associationsmappings/unidirectional/many_to_many/jointable/Certificate.hbm.xml"/>
+    -->
+    <!-- one-to-many unidirectional join table
+    <mapping resource="company/entity/associationsmappings/unidirectional/one_to_many/jointable/Employee.hbm.xml"/>
+    <mapping resource="company/entity/associationsmappings/unidirectional/one_to_many/jointable/Certificate.hbm.xml"/>
+    -->
+    <!-- many-to-one unidirectional join table
+    <mapping resource="company/entity/associationsmappings/unidirectional/many_to_one/jointable/Employee.hbm.xml"/>
+    <mapping resource="company/entity/associationsmappings/unidirectional/many_to_one/jointable/Address.hbm.xml"/>
+    -->            
+    </session-factory>
+</hibernate-configuration>

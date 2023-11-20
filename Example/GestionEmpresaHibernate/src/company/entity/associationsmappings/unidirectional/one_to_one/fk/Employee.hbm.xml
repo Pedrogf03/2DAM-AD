@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>      <!--EMPLOYEE_ONE_TO_ONE: address UNIQUE-->
+    <class name="company.entity.associationsmappings.unidirectional.one_to_one.fk.Employee" 
+           table="EMPLOYEE_ONE_TO_ONE"> 
+        <meta attribute="class-description"> This class contains the employee detail. </meta> 
+        <id name="id" type="int" column="id"> 
+            <generator class="native"/> 
+        </id>        
+           
+       <!--The <many-to-one> element indicates that many Employee objects 
+           can be related to one (the same) Address object and, as such, 
+           the Employee object must have an Address object associated 
+           with it.
+           The name attribute is set to the defined variable in the parent class,
+           in our case it is address, that must be mapped.
+           The column attribute is used to set the column name in the parent table
+           EMPLOYEE_ONE_TO_ONE that is the target of the mapping.
+           The class attribute is used to describe the class of the mapped value
+           The not-null attribute sets if null values are allowed
+           
+           The unique attribute is set to true so that only one Employee object
+           can be associated with an address object.
+           This case is a unidirectional one-to-one on a FOREIGN KEY
+           (EMPLOYEE_ONE_TO_ONE.address) and this column should be UNIQUE
+           
+        -->
+        <many-to-one name="address" column="address" unique="true"
+                     class="company.entity.associationsmappings.unidirectional.one_to_one.fk.Address"
+                     not-null="true"/>
+        
+        <property name="firstName" column="first_name" type="string"/> 
+        <property name="lastName" column="last_name" type="string"/> 
+        <property name="salary" column="salary" type="int"/> 
+    </class> 
+    
+</hibernate-mapping>
+
