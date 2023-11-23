@@ -36,7 +36,6 @@ public class Employee {
     this.firstName = fname;
     this.lastName = lname;
     this.salary = salary;
-
   }
 
   public int getId() {
