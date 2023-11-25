@@ -165,8 +165,8 @@ public class SAXParserCalificaciones {
       for (Map.Entry<String, String> entry : c.alumnos.entrySet()) {
 
         // Se escribe en el archivo curso los datos.
-        puntero.writeBytes(entry.getKey() + ";;" + c.nombreAsignatura + ";;" + c.tipo + ";;" + c.fecha + ";;"
-            + entry.getValue() + ";;0\n");
+        puntero.writeUTF(entry.getKey() + ";;" + c.nombreAsignatura + ";;" + c.tipo + ";;" + c.fecha + ";;"
+            + entry.getValue() + ";;0");
 
       }
 
@@ -176,7 +176,7 @@ public class SAXParserCalificaciones {
 
   }
 
-  // Funcion que devuelve todas las calificaciones del alumno.
+  // Función que devuelve todas las calificaciones del alumno.
   public static void consultaNotas(String alu, File curso) throws IOException {
 
     try (
@@ -189,11 +189,13 @@ public class SAXParserCalificaciones {
 
       // Por cada coincidencia con el nombre, se escriben sus datos.
       String line;
-      while ((line = puntero.readLine()) != null) {
+      while (puntero.getFilePointer() < puntero.length()) {
+
+        line = puntero.readUTF();
 
         String[] partes = line.split(";;");
 
-        if (partes[0].equals(alu) && partes[5].equals("0")) {
+        if (partes[0].equalsIgnoreCase(alu) && partes[5].equals("0")) {
 
           System.out.println();
           System.out.println("Asignatura: " + partes[1]);
@@ -210,34 +212,76 @@ public class SAXParserCalificaciones {
 
   }
 
-  // Funcion que elimina todos los datos de un alumno,
+  // // Función que elimina todos los datos de un alumno.
+  // public static void eliminarAlumno(String alu, File curso) throws IOException {
+
+  //   try (
+  //       RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
+
+  //     // Se coloca el puntero al inicio.
+  //     long posicionActual = 0;
+  //     puntero.seek(posicionActual);
+
+  //     String line;
+  //     while (puntero.getFilePointer() < puntero.length()) {
+
+  //       line = puntero.readUTF();
+
+  //       String[] partes = line.split(";;");
+
+  //       // Por cada coincidencia con el nombre.
+  //       if (partes[0].equals(alu) && partes[5].equals("0")) {
+
+  //         // Se borra lógicamente.
+  //         partes[5] = "1";
+  //         line = String.join(";;", partes);
+  //         puntero.seek(posicionActual);
+
+  //         puntero.writeUTF(line);
+
+  //       }
+
+  //       posicionActual = puntero.getFilePointer(); // Se recoge la posición del puntero.
+
+  //     }
+
+  //   }
+
+  // }
+
+  // Función que elimina todos los datos de un alumno.
   public static void eliminarAlumno(String alu, File curso) throws IOException {
 
     try (
         RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
 
-      // Se coloca el puntero al inicio.
-      long posicionActual = 0;
-      puntero.seek(posicionActual);
+      // Se coloca el puntero al inicio del archivo.
+      puntero.seek(0);
 
+      // Por cada coincidencia con el nombre
       String line;
-      while ((line = puntero.readLine()) != null) {
+      while (puntero.getFilePointer() < puntero.length()) {
+
+        // Se guarda la posición de la linea que se va a leer.
+        long posicionActual = puntero.getFilePointer();
+
+        // Se lee la linea.
+        line = puntero.readUTF();
 
         String[] partes = line.split(";;");
 
         // Por cada coincidencia con el nombre.
-        if (partes[0].equals(alu) && partes[5].equals("0")) {
+        if (partes[0].equalsIgnoreCase(alu) && partes[5].equals("0")) {
 
           // Se borra lógicamente.
           partes[5] = "1";
           line = String.join(";;", partes);
-          puntero.seek(posicionActual);
 
-          puntero.writeBytes(line);
+          // Se coloca el puntero al inicio de la linea que se ha leido anteriormente y se escriben los nuevos datos sobre ella.
+          puntero.seek(posicionActual);
+          puntero.writeUTF(line);
 
         }
-
-        posicionActual = puntero.getFilePointer(); // Se recoge la posicion del puntero.
 
       }
 
