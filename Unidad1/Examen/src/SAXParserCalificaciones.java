@@ -212,43 +212,6 @@ public class SAXParserCalificaciones {
 
   }
 
-  // // Función que elimina todos los datos de un alumno.
-  // public static void eliminarAlumno(String alu, File curso) throws IOException {
-
-  //   try (
-  //       RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
-
-  //     // Se coloca el puntero al inicio.
-  //     long posicionActual = 0;
-  //     puntero.seek(posicionActual);
-
-  //     String line;
-  //     while (puntero.getFilePointer() < puntero.length()) {
-
-  //       line = puntero.readUTF();
-
-  //       String[] partes = line.split(";;");
-
-  //       // Por cada coincidencia con el nombre.
-  //       if (partes[0].equals(alu) && partes[5].equals("0")) {
-
-  //         // Se borra lógicamente.
-  //         partes[5] = "1";
-  //         line = String.join(";;", partes);
-  //         puntero.seek(posicionActual);
-
-  //         puntero.writeUTF(line);
-
-  //       }
-
-  //       posicionActual = puntero.getFilePointer(); // Se recoge la posición del puntero.
-
-  //     }
-
-  //   }
-
-  // }
-
   // Función que elimina todos los datos de un alumno.
   public static void eliminarAlumno(String alu, File curso) throws IOException {
 
