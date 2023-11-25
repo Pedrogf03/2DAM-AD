@@ -35,7 +35,7 @@ public class App {
       System.out.println("3.- Alta alumno y matricular.");
       System.out.println("4.- Baja alumno.");
       System.out.println("5.- Calificar examen alumno.");
-      System.out.println("6.- Consulta notas."); // TODO
+      System.out.println("6.- Consulta notas.");
 
       try {
         option = Integer.parseInt(sc.nextLine());
@@ -125,7 +125,9 @@ public class App {
           calificarAlumnos(numExam, sc);
           break;
         case 6:
-
+          System.out.println("Nombre del ciclo: ");
+          String nombreCiclo = sc.nextLine();
+          consultaNotas(nombreCiclo);
           break;
 
         default:
@@ -368,6 +370,26 @@ public class App {
         ps3.executeUpdate();
 
       }
+
+      conn.close();
+
+    } catch (ClassNotFoundException e) {
+      System.out.println("No se han encontrado los drivers " + db_drivers);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  public static void consultaNotas(String ciclo) {
+
+    try {
+
+      Class.forName(db_drivers);
+
+      Connection conn = DriverManager.getConnection(url, db_user, db_passwd);
+
+      PreparedStatement ps = conn.prepareStatement("SELECT ");
 
       conn.close();
 
