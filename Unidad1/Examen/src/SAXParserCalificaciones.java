@@ -1,8 +1,10 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -95,6 +97,8 @@ public class SAXParserCalificaciones {
 
     do {
 
+      Map<String, ArrayList<Long>> indice = generarIndice(curso);
+
       System.out.println("-----Selecciona una opción-----");
       System.out.println("1.- Importar calificaciones.");
       System.out.println("2.- Consultar calificaciones alumno.");
@@ -121,7 +125,7 @@ public class SAXParserCalificaciones {
           alu = sc.nextLine();
 
           try {
-            consultaNotas(alu, curso);
+            consultaNotas(alu, curso, indice);
           } catch (Exception e) {
             e.printStackTrace();
           }
@@ -132,7 +136,7 @@ public class SAXParserCalificaciones {
           alu = sc.nextLine();
 
           try {
-            eliminarAlumno(alu, curso);
+            eliminarAlumno(alu, curso, indice);
           } catch (Exception e) {
             e.printStackTrace();
           }
@@ -150,6 +154,11 @@ public class SAXParserCalificaciones {
   }
 
   // Función que, dado un xml con el formato especificado en la hoja del examen, importa los datos al fichero curso.
+  /**
+   * @param xml : fichero xml con los datos a importar
+   * @param curso : fichero de datos del curso
+   * @throws IOException
+   */
   public static void importarXML(File xml, File curso) throws IOException {
 
     // El SAXParser devuelve objeto calificaciones.
@@ -177,33 +186,34 @@ public class SAXParserCalificaciones {
   }
 
   // Función que devuelve todas las calificaciones del alumno.
-  public static void consultaNotas(String alu, File curso) throws IOException {
+  /**
+   * @param alu : nombre completo del alumno
+   * @param curso : fichero de datos del curso
+   * @throws IOException
+   */
+  public static void consultaNotas(String alu, File curso, Map<String, ArrayList<Long>> indice) throws IOException {
 
     try (
         RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
 
-      // Se coloca el puntero al inicio del archivo.
-      puntero.seek(0);
+      for (Map.Entry<String, ArrayList<Long>> entry : indice.entrySet()) {
 
-      System.out.println("-----" + alu + "-----");
+        if (entry.getKey().equalsIgnoreCase(alu)) {
+          System.out.println("----- " + entry.getKey() + " -----");
+          for (Long l : entry.getValue()) {
+            puntero.seek(l);
 
-      // Por cada coincidencia con el nombre, se escriben sus datos.
-      String line;
-      while (puntero.getFilePointer() < puntero.length()) {
+            String line = puntero.readUTF();
+            String[] partes = line.split(";;");
 
-        line = puntero.readUTF();
+            System.out.println();
+            System.out.println("Asignatura: " + partes[1]);
+            System.out.println("Tipo: " + partes[2]);
+            System.out.println("Fecha: " + partes[3]);
+            System.out.println("Nota: " + partes[4]);
+            System.out.println();
 
-        String[] partes = line.split(";;");
-
-        if (partes[0].equalsIgnoreCase(alu) && partes[5].equals("0")) {
-
-          System.out.println();
-          System.out.println("Asignatura: " + partes[1]);
-          System.out.println("Tipo: " + partes[2]);
-          System.out.println("Fecha: " + partes[3]);
-          System.out.println("Nota: " + partes[4]);
-          System.out.println();
-
+          }
         }
 
       }
@@ -213,42 +223,98 @@ public class SAXParserCalificaciones {
   }
 
   // Función que elimina todos los datos de un alumno.
-  public static void eliminarAlumno(String alu, File curso) throws IOException {
+  /**
+   * @param alu : nombre completo del alumno
+   * @param curso : fichero de datos del curso
+   * @throws IOException
+   */
+  public static void eliminarAlumno(String alu, File curso, Map<String, ArrayList<Long>> indice) throws IOException {
 
     try (
         RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
 
-      // Se coloca el puntero al inicio del archivo.
-      puntero.seek(0);
+      for (Map.Entry<String, ArrayList<Long>> entry : indice.entrySet()) {
 
-      // Por cada coincidencia con el nombre
-      String line;
-      while (puntero.getFilePointer() < puntero.length()) {
+        if (entry.getKey().equalsIgnoreCase(alu)) {
+          for (Long l : entry.getValue()) {
+            puntero.seek(l);
 
-        // Se guarda la posición de la linea que se va a leer.
-        long posicionActual = puntero.getFilePointer();
+            String line = puntero.readUTF();
+            String[] partes = line.split(";;");
 
-        // Se lee la linea.
-        line = puntero.readUTF();
+            partes[5] = "1";
 
-        String[] partes = line.split(";;");
+            line = String.join(";;", partes);
+            puntero.seek(l);
+            puntero.writeUTF(line);
 
-        // Por cada coincidencia con el nombre.
-        if (partes[0].equalsIgnoreCase(alu) && partes[5].equals("0")) {
-
-          // Se borra lógicamente.
-          partes[5] = "1";
-          line = String.join(";;", partes);
-
-          // Se coloca el puntero al inicio de la linea que se ha leido anteriormente y se escriben los nuevos datos sobre ella.
-          puntero.seek(posicionActual);
-          puntero.writeUTF(line);
-
+          }
         }
 
       }
 
     }
+
+  }
+
+  /**
+   * @param cursof : fichero de datos del curso.
+   * @return : el indice guardado en un mapa.
+   */
+  public static Map<String, ArrayList<Long>> generarIndice(File cursof) {
+
+    Map<String, ArrayList<Long>> indice = new TreeMap<>();
+
+    File indexf = new File("curso.idx"); // Fichero indice
+    File indextmp = new File("curso.idx.tmp"); // Fichero indice temporal
+
+    try (
+        RandomAccessFile curso = new RandomAccessFile(cursof, "r");
+        RandomAccessFile index = new RandomAccessFile(indextmp, "rw");) {
+
+      curso.seek(0);
+      long posicionActual = 0;
+
+      String line;
+      while (curso.getFilePointer() < curso.length()) {
+
+        posicionActual = curso.getFilePointer();
+        line = curso.readUTF();
+
+        String[] partes = line.split(";;");
+
+        if (partes[5].equals("0")) {
+
+          if (indice.get(partes[0]) == null) {
+            indice.put(partes[0], new ArrayList<>());
+          }
+
+          indice.get(partes[0]).add(posicionActual);
+
+        }
+
+      }
+
+      String write;
+      for (Map.Entry<String, ArrayList<Long>> entry : indice.entrySet()) {
+
+        write = entry.getKey();
+
+        for (Long l : entry.getValue()) {
+          write = write + ";;" + l;
+        }
+        index.writeUTF(write);
+
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    indexf.delete();
+    indextmp.renameTo(indexf);
+
+    return indice;
 
   }
 
