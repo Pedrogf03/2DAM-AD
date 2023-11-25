@@ -279,38 +279,3 @@ public class App {
     }
   }
 }
-
-// try (
-//     RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
-
-//   // Se coloca el puntero al inicio del archivo.
-//   puntero.seek(0);
-
-//   // Por cada coincidencia con el nombre
-//   String line;
-//   while (puntero.getFilePointer() < puntero.length()) {
-
-//     // Se guarda la posición de la linea que se va a leer.
-//     long posicionActual = puntero.getFilePointer();
-
-//     // Se lee la linea.
-//     line = puntero.readUTF();
-
-//     String[] partes = line.split(";;");
-
-//     // Por cada coincidencia con el nombre.
-//     if (partes[0].equalsIgnoreCase(alu) && partes[5].equals("0")) {
-
-//       // Se borra lógicamente.
-//       partes[5] = "1";
-//       line = String.join(";;", partes);
-
-//       // Se coloca el puntero al inicio de la linea que se ha leido anteriormente y se escriben los nuevos datos sobre ella.
-//       puntero.seek(posicionActual);
-//       puntero.writeUTF(line);
-
-//     }
-
-//   }
-
-// }
