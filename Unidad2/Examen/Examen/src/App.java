@@ -44,6 +44,10 @@ public class App {
         break;
       }
 
+      if (option == 0) {
+        break;
+      }
+
       switch (option) {
         case 1:
           System.out.print("Ciclo: ");
@@ -344,18 +348,18 @@ public class App {
       }
 
       PreparedStatement ps2 = conn.prepareStatement(
-          "SELECT a.expedienteAlu FROM Alumno a JOIN matriculado m ON a.expedienteAlu = m.expedienteAlu JOIN modulo mm ON m.codigoModulo = mm.codigoModulo WHERE mm.nombre = ?");
+          "SELECT a.expedienteAlu, a.nombre FROM Alumno a JOIN matriculado m ON a.expedienteAlu = m.expedienteAlu JOIN modulo mm ON m.codigoModulo = mm.codigoModulo WHERE mm.nombre = ?");
 
       ps2.setString(1, nombreModulo);
 
       ResultSet rs2 = ps2.executeQuery();
 
-      if (rs2.next()) {
+      while (rs2.next()) {
 
         PreparedStatement ps3 = conn
             .prepareStatement("INSERT INTO realiza (expedienteAlu, calificacion, numeroExamen) VALUES (?, ?, ?)");
 
-        System.out.println("Calificacion del alumno " + rs2.getInt(1));
+        System.out.println("Calificacion del alumno " + rs2.getString(2));
         int nota = Integer.parseInt(sc.nextLine());
 
         while (nota > 10 || nota < 0) {
@@ -367,7 +371,11 @@ public class App {
         ps3.setInt(2, nota);
         ps3.setInt(3, numExam);
 
-        ps3.executeUpdate();
+        try {
+          ps3.executeUpdate();
+        } catch (SQLException e) {
+          continue;
+        }
 
       }
 
@@ -389,7 +397,57 @@ public class App {
 
       Connection conn = DriverManager.getConnection(url, db_user, db_passwd);
 
-      PreparedStatement ps = conn.prepareStatement("SELECT ");
+      PreparedStatement ps = conn.prepareStatement("SELECT * FROM modulo WHERE ciclo = ?");
+
+      ps.setString(1, ciclo);
+
+      ResultSet resultSet = ps.executeQuery();
+
+      while (resultSet.next()) {
+
+        System.out.println("Modulo de " + resultSet.getString(2));
+
+        ps = conn.prepareStatement("SELECT * FROM examen WHERE codigoModulo = ?");
+        ps.setInt(1, resultSet.getInt(3));
+
+        ResultSet resultSet2 = ps.executeQuery();
+
+        int media = 0;
+        int filas = 0;
+        while (resultSet2.next()) {
+
+          if (resultSet2.getBoolean(5)) {
+
+            ps = conn.prepareStatement("SELECT calificacion FROM realiza WHERE numeroExamen = ?");
+            ps.setInt(1, resultSet2.getInt(1));
+
+            ResultSet resultSet3 = ps.executeQuery();
+
+            while (resultSet3.next()) {
+              filas++;
+              media += resultSet3.getInt(1);
+            }
+
+          }
+
+        }
+
+        if (filas > 0) {
+          media /= filas;
+          System.out.println("\tNota media general de los trimestrales: " + media);
+        }
+
+        ps = conn.prepareStatement(
+            "SELECT a.nombre, AVG(r.calificacion) FROM realiza r JOIN alumno a ON r.expedienteAlu = a.expedienteAlu WHERE r.numeroExamen IN (SELECT numeroExamen FROM examen WHERE trimestral AND codigoModulo = "
+                + resultSet.getInt(3) + ") GROUP BY a.nombre");
+
+        ResultSet resultSet4 = ps.executeQuery();
+
+        while (resultSet4.next()) {
+          System.out.println("\tMedia de " + resultSet4.getString(1) + ": " + resultSet4.getDouble(2));
+        }
+
+      }
 
       conn.close();
 
