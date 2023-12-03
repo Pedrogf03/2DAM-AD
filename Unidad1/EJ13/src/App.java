@@ -62,14 +62,13 @@ public class App {
         int salario2 = sc.nextInt();
 
         modificarEmpleado(
-          id,
-          nombre2,
-          departamento2,
-          ciudad2,
-          salario2,
-          f,
-          index
-        );
+            id,
+            nombre2,
+            departamento2,
+            ciudad2,
+            salario2,
+            f,
+            index);
 
         break;
       case 4:
@@ -94,9 +93,8 @@ public class App {
     File indexf = new File("empleados.index");
 
     try (
-      RandomAccessFile file = new RandomAccessFile(archivoEmpleados, "r");
-      RandomAccessFile index = new RandomAccessFile(indextmp, "rw");
-    ) {
+        RandomAccessFile file = new RandomAccessFile(archivoEmpleados, "r");
+        RandomAccessFile index = new RandomAccessFile(indextmp, "rw");) {
       file.seek(0); // Mover el puntero al principio del archivo de empleados
       long posicionActual = 0;
 
@@ -121,8 +119,7 @@ public class App {
     Map<String, String> indice = new TreeMap<>();
 
     try (
-      RandomAccessFile index = new RandomAccessFile("empleados.index", "r");
-    ) {
+        RandomAccessFile index = new RandomAccessFile("empleados.index", "r");) {
       index.seek(0); // Mover el puntero al principio del archivo
 
       String linea;
@@ -159,31 +156,29 @@ public class App {
   }
 
   public static void realizarAlta(
-    String nombre,
-    String departamento,
-    String ciudad,
-    int salario,
-    File f
-  ) {
+      String nombre,
+      String departamento,
+      String ciudad,
+      int salario,
+      File f) {
     try (
-      RandomAccessFile file = new RandomAccessFile(f, "rw"); // Abrir el archivo en modo lectura/escritura
+        RandomAccessFile file = new RandomAccessFile(f, "rw"); // Abrir el archivo en modo lectura/escritura
     ) {
       long pos = file.length(); // Tamaño del archivo.
       file.seek(pos); // Colocar el puntero al final del archivo.
       int id = obtenerProximoId(file);
       file.writeBytes(
-        id +
-        ";;" +
-        nombre +
-        ";;" +
-        departamento +
-        ";;" +
-        ciudad +
-        ";;" +
-        salario +
-        ";;0" +
-        "\n"
-      ); // Escribir en el lugar donde apunta el puntero.
+          id +
+              ";;" +
+              nombre +
+              ";;" +
+              departamento +
+              ";;" +
+              ciudad +
+              ";;" +
+              salario +
+              ";;0" +
+              "\n"); // Escribir en el lugar donde apunta el puntero.
 
       System.out.println("Empleado " + nombre + " almecenado con el ID " + id);
     } catch (IOException e) {
@@ -193,7 +188,7 @@ public class App {
 
   public static void realizarBaja(int id, File f, Map<String, String> index) { // Borrado lógico
     try (
-      RandomAccessFile file = new RandomAccessFile(f, "rw"); // Abrir el archivo en modo lectura/escritura
+        RandomAccessFile file = new RandomAccessFile(f, "rw"); // Abrir el archivo en modo lectura/escritura
     ) {
       for (Map.Entry<String, String> entry : index.entrySet()) {
         if (Integer.parseInt(entry.getKey()) == id) { // Si la clave coincide con el id que se quiere borrar.
@@ -215,18 +210,17 @@ public class App {
   }
 
   public static void modificarEmpleado(
-    int id,
-    String nombre,
-    String departamento,
-    String ciudad,
-    int salario,
-    File f,
-    Map<String, String> index
-  ) {
+      int id,
+      String nombre,
+      String departamento,
+      String ciudad,
+      int salario,
+      File f,
+      Map<String, String> index) {
     boolean found = false; // Variable para comprobar si se ha encontrado o no al empleado.
 
     try (
-      RandomAccessFile file = new RandomAccessFile(f, "rw"); // Abrir el archivo en modo lectura/escritura
+        RandomAccessFile file = new RandomAccessFile(f, "rw"); // Abrir el archivo en modo lectura/escritura
     ) {
       for (Map.Entry<String, String> entry : index.entrySet()) {
         if (Integer.parseInt(entry.getKey()) == id) { // Si la clave coincide con el id que se quiere modificar.
@@ -255,14 +249,13 @@ public class App {
   }
 
   public static void consultarEmpleado(
-    int id,
-    File f,
-    Map<String, String> index
-  ) {
+      int id,
+      File f,
+      Map<String, String> index) {
     boolean found = false; // Variable para comprobar si se ha encontrado o no al empleado.
 
     try (
-      RandomAccessFile file = new RandomAccessFile(f, "rw"); // Abrir el archivo en modo lectura/escritura
+        RandomAccessFile file = new RandomAccessFile(f, "rw"); // Abrir el archivo en modo lectura/escritura
     ) {
       for (Map.Entry<String, String> entry : index.entrySet()) {
         if (Integer.parseInt(entry.getKey()) == id) { // Si la clave coincide con el id que se quiere consultar.
