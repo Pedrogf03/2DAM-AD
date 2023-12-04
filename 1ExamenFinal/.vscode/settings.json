@@ -1,0 +1,10 @@
+{
+  "java.project.sourcePaths": ["src"],
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar",
+    "c:\\Users\\bleik\\Desktop\\AD\\Unidad1\\EJ20\\lib\\kxml2-2.3.0.jar",
+    "c:\\Users\\bleik\\Desktop\\AD\\Unidad1\\EJ20\\lib\\xstream-1.4.20.jar"
+  ],
+  "java.format.settings.url": ".vscode/java-formatter.xml"
+}
