@@ -182,21 +182,22 @@ public class SAXParserEmpleados {
   public static void borrarEmpleado(int id, List<Empleado> empleados) {
 
     int index = -1;
-    
+
     for (Empleado e : empleados) {
       if (e.getId() == id) {
         index = empleados.indexOf(e);
       }
     }
 
-    if(index != -1) {
+    if (index != -1) {
       empleados.remove(index);
     }
 
   }
 
-  public static void modificarEmpleado(int id, String nombre, String departamento, String ciudad, int salario, List<Empleado> empleados ) {
-    
+  public static void modificarEmpleado(int id, String nombre, String departamento, String ciudad, int salario,
+      List<Empleado> empleados) {
+
     for (Empleado e : empleados) {
       if (e.getId() == id) {
         e.setNombre(nombre);
@@ -214,6 +215,9 @@ public class SAXParserEmpleados {
 
     xstream.alias("Empleado", Empleado.class);
     xstream.alias("Empleados", List.class);
+
+    xstream.useAttributeFor(Empleado.class, "id");
+    xstream.aliasAttribute(Empleado.class, "id", "identificador");
 
     try {
       FileOutputStream ficheroXML = new FileOutputStream("empleados.xml");

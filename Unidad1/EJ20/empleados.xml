@@ -1,13 +1,11 @@
 <Empleados>
-  <Empleado>
-    <id>1</id>
+  <Empleado identificador="1">
     <nombre>Pedro Gonzalez Fernandez</nombre>
     <departamento>Informatica</departamento>
     <ciudad>Cadiz</ciudad>
     <salario>1350</salario>
   </Empleado>
-  <Empleado>
-    <id>2</id>
+  <Empleado identificador="2">
     <nombre>Francisco Rodriguez Belmonte</nombre>
     <departamento>Informatica</departamento>
     <ciudad>Ceuta</ciudad>
