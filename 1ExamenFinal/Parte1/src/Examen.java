@@ -1,12 +1,13 @@
 public class Examen {
+
+  String modulo;
   String denominacion;
-  String asignatura;
   String fecha;
   int nota;
 
-  public Examen(String denominacion, String asignatura, String fecha, int nota) {
+  public Examen(String modulo, String denominacion, String fecha, int nota) {
     this.denominacion = denominacion;
-    this.asignatura = asignatura;
+    this.modulo = modulo;
     this.fecha = fecha;
     this.nota = nota;
   }

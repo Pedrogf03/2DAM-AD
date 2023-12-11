@@ -2,80 +2,38 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.RandomAccessFile;
 import java.sql.Date;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.TreeMap;
-
-import javax.xml.parsers.SAXParser;
-import org.xml.sax.Attributes;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import java.util.TreeSet;
 
 public class RealizadorInforme {
 
-  String currentElement;
-  int media = 0;
-  int countExamenes = 0;
-
-  public RealizadorInforme(File f) {
-    try {
-      SAXParserFactory factory = SAXParserFactory.newInstance();
-      SAXParser saxParser = factory.newSAXParser();
-      saxParser.parse(f, new MyHandler());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  class MyHandler extends DefaultHandler {
-
-    @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-
-      currentElement = qName;
-
-      if (currentElement.equals("alumno")) {
-        Alumno a = new Alumno(attributes.getValue("nombre"), 0, null);
-      }
-
-    }
-
-    @Override
-    public void characters(char[] chars, int start, int length) throws SAXException {
-
-    }
-
-    @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-      currentElement = "";
-    }
-
-  }
-
   public static void main(String[] args) throws Exception {
-    Scanner sc = new Scanner(System.in);
+    // Scanner sc = new Scanner(System.in);
 
-    System.out.print("Modulos: ");
-    String modulos = sc.nextLine();
-    System.out.print("Denominación: ");
-    String denom = sc.nextLine();
-    System.out.print("Rango de fechas: ");
-    String fechas = sc.nextLine();
-    System.out.println("Formato: ");
-    // Escribe 1 para formato xml, 2 para formato binario.
-    System.out.println("\t1.-XML");
-    System.out.println("\t2.-Binario");
-    int formato = Integer.parseInt(sc.nextLine());
+    // System.out.print("Modulos: ");
+    // String modulos = sc.nextLine();
+    // System.out.print("Denominación: ");
+    // String denom = sc.nextLine();
+    // System.out.print("Rango de fechas: ");
+    // String fechas = sc.nextLine();
+    // System.out.println("Formato: ");
+    // // Escribe 1 para formato xml, 2 para formato binario.
+    // System.out.println("\t1.-XML");
+    // System.out.println("\t2.-Binario");
+    // int formato = Integer.parseInt(sc.nextLine());
 
-    sc.close();
+    // sc.close();
 
-    generarInforme(modulos, denom, fechas, formato);
+    //generarInforme(modulos, denom, fechas, formato);
+    generarInforme("AD", "1 evaluacion", "04-12-2023, 05-12-2023", 1);
 
   }
 
   public static void generarInforme(String modulos, String denom, String rangoFechas, int formato) {
+
+    TreeSet<Alumno> alumnos = new TreeSet<>();
 
     String[] mods = modulos.split(", ");
     String[] denoms = denom.split(", ");
@@ -83,13 +41,14 @@ public class RealizadorInforme {
 
     for (int i = 0; i < mods.length; i++) {
 
-      File f = new File("./" + mods[i]);
+      File f = new File(mods[i]);
       File[] files = f.listFiles();
 
       for (File file : files) {
         String[] fileName = file.getName().split("-");
 
         String denomExamen = fileName[0];
+
         Date fechaExamen = Date.valueOf((fileName[3].split(".csv")[0] + "-" + fileName[2] + "-" + fileName[1]));
 
         String[] fecha1 = fechas[0].split("-");
@@ -103,10 +62,10 @@ public class RealizadorInforme {
           if (denomExamen.equalsIgnoreCase("examen " + denoms[j])) {
             if ((fechaExamen.after(fechaInicio) && fechaExamen.before(fechaFin) || fechaExamen.equals(fechaInicio) || fechaExamen.equals(fechaFin))) {
 
-              if (formato == 1) {
-                importarXML(file);
-              } else {
-                importarBin(file);
+              for (Alumno a : importarDatos(file)) {
+                if (!alumnos.contains(a)) {
+                  alumnos.add(a);
+                }
               }
 
             }
@@ -118,37 +77,52 @@ public class RealizadorInforme {
 
     }
 
+    // if (formato == 1) {
+    //   exportarXML();
+    // } else {
+    //   exportarBin();
+    // }
+
   }
 
-  public static void importarXML(File f) {
+  public static TreeSet<Alumno> importarDatos(File f) {
 
-  }
+    TreeSet<Alumno> alumnos = new TreeSet<>();
 
-  public static void importarBin(File f) {
+    try (RandomAccessFile reader = new RandomAccessFile(f, "r")) {
 
-    try (RandomAccessFile readerFile = new RandomAccessFile(f, "r"); RandomAccessFile readerInforme = new RandomAccessFile("informe.dat", "r");) {
+      String nombreArchivo = f.getPath();
+      String modulo = nombreArchivo.split("\\\\")[0];
 
-      Map<String, Integer> medias = new TreeMap<>();
-      if (new File("informe.dat").exists()) {
-        while (readerFile.getFilePointer() < readerFile.length()) {
+      String examen = nombreArchivo.split("\\\\")[1];
+      String denom = examen.split("-")[0].split(" ")[1] + " " + examen.split("-")[0].split(" ")[2];
+      String fecha = examen.split("-")[1] + "-" + examen.split("-")[2] + "-" + examen.split("-")[3].split(".csv")[0];
 
-          String line = readerInforme.readUTF();
-          medias.put(line.split(";")[0], Integer.parseInt(line.split(";")[1]));
+      String line;
+      while ((line = reader.readLine()) != null) {
+        String[] datos = line.split(";");
 
-        }
-      }
+        Alumno a = new Alumno(datos[0]);
+        alumnos.add(a);
 
-      while (readerFile.getFilePointer() < readerFile.length()) {
-        String line = readerFile.readUTF();
-
-        String[] partes = line.split(";");
-
-        //String write = partes[0] + 0 + 
+        a.examenes.add(new Examen(modulo, denom, fecha, Integer.parseInt(datos[1])));
 
       }
+
+      return alumnos;
 
     } catch (Exception e) {
+      e.printStackTrace();
+      return null;
     }
+
+  }
+
+  public static void exportarXML() {
+
+  }
+
+  public static void exportarBin() {
 
   }
 
