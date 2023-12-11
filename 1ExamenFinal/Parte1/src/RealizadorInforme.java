@@ -1,33 +1,36 @@
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.RandomAccessFile;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
+
+import com.thoughtworks.xstream.XStream;
 
 public class RealizadorInforme {
 
   public static void main(String[] args) throws Exception {
-    // Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
 
-    // System.out.print("Modulos: ");
-    // String modulos = sc.nextLine();
-    // System.out.print("Denominación: ");
-    // String denom = sc.nextLine();
-    // System.out.print("Rango de fechas: ");
-    // String fechas = sc.nextLine();
-    // System.out.println("Formato: ");
-    // // Escribe 1 para formato xml, 2 para formato binario.
-    // System.out.println("\t1.-XML");
-    // System.out.println("\t2.-Binario");
-    // int formato = Integer.parseInt(sc.nextLine());
+    System.out.print("Modulos: ");
+    String modulos = sc.nextLine();
+    System.out.print("Denominación: ");
+    String denom = sc.nextLine();
+    System.out.print("Rango de fechas: ");
+    String fechas = sc.nextLine();
+    System.out.println("Formato: ");
+    // Escribe 1 para formato xml, 2 para formato binario.
+    System.out.println("\t1.-XML");
+    System.out.println("\t2.-Binario");
+    int formato = Integer.parseInt(sc.nextLine());
 
-    // sc.close();
+    sc.close();
 
-    //generarInforme(modulos, denom, fechas, formato);
-    generarInforme("AD", "1 evaluacion", "04-12-2023, 05-12-2023", 1);
+    generarInforme(modulos, denom, fechas, formato);
+    //generarInforme("AD, PSP", "1 evaluacion, tema 2", "04-12-2023, 05-12-2023", 2);
 
   }
 
@@ -63,8 +66,17 @@ public class RealizadorInforme {
             if ((fechaExamen.after(fechaInicio) && fechaExamen.before(fechaFin) || fechaExamen.equals(fechaInicio) || fechaExamen.equals(fechaFin))) {
 
               for (Alumno a : importarDatos(file)) {
+
                 if (!alumnos.contains(a)) {
                   alumnos.add(a);
+                }
+
+                for (Examen e : a.examenes) {
+                  for (Alumno alu : alumnos) {
+                    if (alu.equals(a) && !alu.examenes.contains(e)) {
+                      alu.examenes.add(e);
+                    }
+                  }
                 }
               }
 
@@ -77,11 +89,20 @@ public class RealizadorInforme {
 
     }
 
-    // if (formato == 1) {
-    //   exportarXML();
-    // } else {
-    //   exportarBin();
-    // }
+    for (Alumno a : alumnos) {
+      int media = 0;
+      for (Examen e : a.examenes) {
+        media += e.nota;
+      }
+      media /= a.examenes.size();
+      a.media = media;
+    }
+
+    if (formato == 1) {
+      exportarXML(alumnos);
+    } else {
+      exportarBin(alumnos);
+    }
 
   }
 
@@ -102,7 +123,9 @@ public class RealizadorInforme {
       while ((line = reader.readLine()) != null) {
         String[] datos = line.split(";");
 
-        Alumno a = new Alumno(datos[0]);
+        String nombreAlu = datos[0].split("  ")[1] + " " + datos[0].split("  ")[0];
+
+        Alumno a = new Alumno(nombreAlu);
         alumnos.add(a);
 
         a.examenes.add(new Examen(modulo, denom, fecha, Integer.parseInt(datos[1])));
@@ -118,11 +141,53 @@ public class RealizadorInforme {
 
   }
 
-  public static void exportarXML() {
+  public static void exportarXML(Set<Alumno> alus) {
+
+    XStream xs = new XStream();
+
+    xs.setMode(XStream.NO_REFERENCES);
+
+    xs.alias("Alumnos", SortedSet.class);
+
+    xs.useAttributeFor(Alumno.class, "nombre");
+    xs.useAttributeFor(Alumno.class, "media");
+
+    xs.addImplicitCollection(Alumno.class, "examenes");
+
+    xs.useAttributeFor(Examen.class, "modulo");
+    xs.useAttributeFor(Examen.class, "denominacion");
+    xs.useAttributeFor(Examen.class, "fecha");
+
+    try {
+      FileOutputStream ficheroXML = new FileOutputStream("informe.xml");
+      xs.toXML(alus, ficheroXML);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
   }
 
-  public static void exportarBin() {
+  public static void exportarBin(Set<Alumno> alus) {
+
+    try (FileWriter writer = new FileWriter("informe.dat")) {
+
+      for (Alumno a : alus) {
+
+        String line = a.nombre + ";;" + a.media + ";;";
+
+        for (Examen e : a.examenes) {
+          line = line + e.modulo + ";;" + e.denominacion + ";;" + e.fecha + ";;" + e.nota + ";;";
+        }
+
+        line = line + "\n";
+
+        writer.write(line);
+
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
   }
 
