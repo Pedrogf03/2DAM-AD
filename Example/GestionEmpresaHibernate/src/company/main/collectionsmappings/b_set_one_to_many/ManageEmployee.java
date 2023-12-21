@@ -25,34 +25,38 @@ public class ManageEmployee {
     /* Add employee records in the database */
     Integer empID1 = ME.addEmployee("Manoj", "Kumar", 4000, set1);
 
-    /* Another set of certificates for the second employee */
-    HashSet<Certificate> set2 = new HashSet<>();
-    set2.add(new Certificate("BCA"));
-    set2.add(new Certificate("BA"));
+    // /* Another set of certificates for the second employee */
+    // HashSet<Certificate> set2 = new HashSet<>();
+    // set2.add(new Certificate("BCA"));
+    // set2.add(new Certificate("BA"));
 
-    /* Add another employee record in the database */
-    Integer empID2 = ME.addEmployee("Dilip", "Kumar", 3000, set2);
+    // /* Add another employee record in the database */
+    // Integer empID2 = ME.addEmployee("Dilip", "Kumar", 3000, set2);
 
-    /* List down all the employees */
-    ME.listEmployees();
+    // /* List down all the employees */
+    // ME.listEmployees();
 
-    /* Update employee's records */
-    ME.updateEmployee(empID1, 5000);
+    // /* Update employee's records */
+    // ME.updateEmployee(empID1, 5000);
 
-    /* Delete an employee from the database */
-    ME.deleteEmployee(empID2);
+    // /* Delete an employee from the database */
+    // ME.deleteEmployee(empID2);
 
-    /* List down new list of the employees */
-    ME.listEmployees();
+    // /* List down new list of the employees */
+    // ME.listEmployees();
   }
 
   /* Method to add an employee record in the database */ //Set
   public Integer addEmployee(String fname, String lname, int salary, Set<Certificate> cert) {
-    Session session = HibernateUtil.getSessionFactory().openSession();
+
+    Session session = null;
     Transaction tx = null;
     Integer employeeID = null;
 
     try {
+
+      session = HibernateUtil.getSessionFactory().openSession();
+
       tx = session.beginTransaction();
       Employee employee = new Employee(fname, lname, salary);
       employee.setCertificates(cert);//<----------------------Set

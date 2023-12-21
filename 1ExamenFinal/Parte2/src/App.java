@@ -346,7 +346,7 @@ public class App {
       Connection conn = DriverManager.getConnection(url, db_user, db_passwd);
 
       PreparedStatement ps = conn.prepareStatement(
-          "SELECT a.expediente, a.nombre, AVG(r.puntuacion) FROM alumno a JOIN realiza r ON a.expediente = r.expediente JOIN examen e ON e.codigo = r.codigo WHERE e.fecha BETWEEN 1 AND 2 AND e.modulo = 1 GROUP BY a.nombre, a.expediente ORDER BY a.nombre ASC");
+          "SELECT a.expediente, a.nombre, AVG(r.puntuacion) FROM alumno a JOIN realiza r ON a.expediente = r.expediente JOIN examen e ON e.codigo = r.codigo WHERE e.fecha BETWEEN ? AND ? AND e.modulo = ? GROUP BY a.nombre, a.expediente ORDER BY a.nombre ASC");
 
       ps.setString(1, fechas[0]);
       ps.setString(2, fechas[1]);

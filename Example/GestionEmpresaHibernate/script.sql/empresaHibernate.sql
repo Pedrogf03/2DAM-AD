@@ -16,7 +16,7 @@ create table CERTIFICATE (
     certificate_name VARCHAR(30) default NULL, 
     employee_id INT default NULL, /*one: the (unique) certificate's owner */
     PRIMARY KEY (id)
---  , FOREIGN KEY (employee_id) REFERENCES EMPLOYEE(id)ON DELETE SET NULL ON UPDATE CASCADE
+    , FOREIGN KEY (employee_id) REFERENCES EMPLOYEE(id)ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 --one-to-many relationship between EMPLOYEE and CERTIFICATE: List
