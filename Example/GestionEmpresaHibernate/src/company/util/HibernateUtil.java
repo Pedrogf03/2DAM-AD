@@ -5,44 +5,32 @@
  */
 package company.util;
 
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
-
-import java.io.File;
-
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-/**
- * Hibernate Utility class with a convenient method to get Session Factory
- * object.
- *
- * @author migue
- */
+
 public class HibernateUtil {
+    private static final SessionFactory sessionFactory = buildSessionFactory();
 
-  private static SessionFactory sessionFactory;
-
-  private void setUp() throws Exception {
-    // A SessionFactory is set up once for an application!
-    final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-        .configure() // configures settings from hibernate.cfg.xml
-        .build();
-    try {
-      sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-    } catch (Exception e) {
-      // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
-      // so destroy it manually.
-      StandardServiceRegistryBuilder.destroy(registry);
+    private static SessionFactory buildSessionFactory() {
+        try {
+            // Crea la SessionFactory desde hibernate.cfg.xml
+            return new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            // Muestra un mensaje de error si la inicialización falla
+            System.err.println("La creación de la SessionFactory falló: " + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
     }
-  }
 
-  public static SessionFactory getSessionFactory() {
-    setUp();
-    return sessionFactory;
-  }
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
+    
+
+    public static void shutdown() {
+        // Cierra los caches y las conexiones de la pool
+        getSessionFactory().close();
+    }
 }
