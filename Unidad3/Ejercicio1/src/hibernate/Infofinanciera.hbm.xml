@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-ene-2024 11:41:09 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Infofinanciera" table="infofinanciera">
+        
+        <id name="idDepartamento" type="int" column="idDepartamento" >
+            <generator class="foreign">
+                <param name="property">departamento</param>
+            </generator>
+        </id>
+        
+        <one-to-one name="departamento" class="hibernate.Departamento" constrained="true" />
+        
+        <property name="presupuesto" type="int"column="presupuesto" not-null="true" />
+
+        <property name="ingresos" type="int"column="ingresos" not-null="true" />
+        
+        <property name="gastos" type="int">column="gastos" not-null="true" />
+
+    </class>
+</hibernate-mapping>

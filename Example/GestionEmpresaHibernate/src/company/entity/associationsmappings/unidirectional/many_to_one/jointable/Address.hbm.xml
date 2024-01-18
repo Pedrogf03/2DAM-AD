@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping>          
- <class name="company.entity.associationsmappings.unidirectional.many_to_one.jointable.Address"
-        table="ADDRESS">
+<hibernate-mapping>
+  <class name="company.entity.associationsmappings.unidirectional.many_to_one.jointable.Address"
+    table="ADDRESS">
     <meta attribute="class-description"> This class contains the address detail. </meta>
-    
+
     <id name="id" column="id" type="int">
-      <generator class="native"/>
+      <generator class="native" />
     </id>
-    <property column="street_name" name="street" type="string"/>
-    <property column="city_name" name="city" type="string"/>
-    <property column="state_name" name="state" type="string"/>
-    <property column="zipcode" name="zipcode" type="string"/>
+    <property column="street_name" name="street" type="string" />
+    <property column="city_name" name="city" type="string" />
+    <property column="state_name" name="state" type="string" />
+    <property column="zipcode" name="zipcode" type="string" />
   </class>
 </hibernate-mapping>

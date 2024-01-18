@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-ene-2024 11:41:09 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Direccion" table="direccion" catalog="empresa" optimistic-lock="version">
+        
+        <id name="idDireccion" type="int" column="idDireccion" >
+            <generator class="native" />
+        </id>
+        
+        <property name="calle" type="string" column="calle" length="100" not-null="true" />
+        
+        <property name="numero" type="string" column="numero" length="45" not-null="true" />
+        
+        <property name="cp" type="string" column="cp" length="5" not-null="true" />
+        
+        <property name="provincia" type="string" column="provincia" length="45" not-null="true" />
+        
+    </class>
+</hibernate-mapping>

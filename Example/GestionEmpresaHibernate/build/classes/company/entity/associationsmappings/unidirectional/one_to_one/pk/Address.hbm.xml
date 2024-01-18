@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-  <class name="company.entity.associationsmappings.unidirectional.one_to_one.pk.Address" table="ADDRESS_ONE_TO_ONE_PK">
+  <class name="company.entity.associationsmappings.unidirectional.one_to_one.pk.Address"
+    table="ADDRESS_ONE_TO_ONE_PK">
     <meta attribute="class-description"> This class contains the address detail. </meta>
-    <!--name:  "id" attribute from Address objects is the key
+    <!--name:
+    "id" attribute from Address objects is the key
         colum: "idEmployee on ADDRESS_ONE-TO_ONE_PK table is the primary key
         type: "int"-->
     <id column="idEmployee" name="id" type="int">
-      <!--A unidirectional one-to-one association on a primary key usually uses
+      <!--A
+      unidirectional one-to-one association on a primary key usually uses
         a special id generator: "foreign"
         class: "foreign" means that Address id's value is obtained from ...
         param name="property": ... the id of the object refered by the
@@ -20,13 +23,15 @@
         <param name="property">employee</param>
       </generator>
     </id>
-    <!--name: the property "employee" ...
+    <!--name:
+    the property "employee" ...
         class: is a object of class Employee.class
         constrained:-->
-    <one-to-one class="company.entity.associationsmappings.unidirectional.one_to_one.pk.Employee" constrained="true" name="employee"/>
-    <property column="street_name" name="street" type="string"/>
-    <property column="city_name" name="city" type="string"/>
-    <property column="state_name" name="state" type="string"/>
-    <property column="zipcode" name="zipcode" type="string"/>
+    <one-to-one class="company.entity.associationsmappings.unidirectional.one_to_one.pk.Employee"
+      constrained="true" name="employee" />
+    <property column="street_name" name="street" type="string" />
+    <property column="city_name" name="city" type="string" />
+    <property column="state_name" name="state" type="string" />
+    <property column="zipcode" name="zipcode" type="string" />
   </class>
 </hibernate-mapping>

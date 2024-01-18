@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping>   
-    <class name="company.entity.associationsmappings.unidirectional.many_to_many.jointable.Certificate" 
-           table="CERTIFICATE_WITH_JOIN_TABLE">
-        <meta attribute="class-description"> This class contains the certificate records. </meta> 
-        <id name="id" type="int" column="id"> 
-            <generator class="native"/> 
-        </id> 
-        <property name="name" column="certificate_name" type="string"/> 
+<hibernate-mapping>
+    <class
+        name="company.entity.associationsmappings.unidirectional.many_to_many.jointable.Certificate"
+        table="CERTIFICATE_WITH_JOIN_TABLE">
+        <meta attribute="class-description"> This class contains the certificate records. </meta>
+        <id name="id" type="int" column="id">
+            <generator class="native" />
+        </id>
+        <property name="name" column="certificate_name" type="string" />
     </class>
 </hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-ene-2024 11:41:09 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Vehiculo" table="vehiculo">
+        
+        <id name="idVehiculo" type="int" column="idVehiculo" />
+            <generator class="native" />
+        </id>
+        
+
+        <property name="matricula" type="string" column="matricula" length="8" not-null="true" />
+        </property>
+        
+        <property name="modelo" type="string" column="modelo" length="45" not-null="true" />
+        
+        <property name="marca" type="string" column="marca" length="45" not-null="true" />
+        
+        <property name="estado" type="string" column="estado" length="45" not-null="true" />
+        
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-ene-2024 11:41:09 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="empresa" name="hibernate.Departamento">
+      
+    <id name="idDepartamento" column="idDepartamento" type="int">
+      <generator class="native"/>
+    </id>
+    
+    <property name="denominacion" type="string" length="50" column="denominacion" not-null="true"/>
+    
+    <many-to-one class="hibernate.Direccion" name="direccion" column="idDireccion" not-null="true" unique="true"/>
+    
+    <many-to-one class="hibernate.Empleado" name="jefe" column="jefe" not-null="true" unique="true"/>
+    
+    <set name="empleados" cascade="all">
+        <key column="idDpto"/>
+        <one-to-many class="hibernate.Empleado"/>
+    </set>
+    
+  </class>
+</hibernate-mapping>

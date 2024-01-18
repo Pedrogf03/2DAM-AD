@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="company.entity.associationsmappings.unidirectional.many_to_one.jointable.Employee" 
-           table="EMPLOYEE_MANY_TO_ONE"> 
-        <meta attribute="class-description"> This class contains the employee detail. </meta> 
-        <id name="id" type="int" column="id"> 
-            <generator class="native"/> 
-        </id>   
-        <!--The <join> elements allows map some object properties to different
+    <class name="company.entity.associationsmappings.unidirectional.many_to_one.jointable.Employee"
+        table="EMPLOYEE_MANY_TO_ONE">
+        <meta attribute="class-description"> This class contains the employee detail. </meta>
+        <id name="id" type="int" column="id">
+            <generator class="native" />
+        </id>
+        <!--The
+        <join> elements allows map some object properties to different
             tables. In this example is used to 'export' primary keys from
             employee and address to a intermediate table EMP_ADDR_MANY_TO_ONE
             -name: The table where the properties between '<join></join>' tags
@@ -21,21 +22,23 @@
                       to null, a row can be inserted in EMP_ADDR_MANY_TO_ONE
                       Since a outer joint (between EMPLOYEE and  EMP_CERT_MANY_TO_ONE
                       is always use to retrive these properties, it follows that
-              ********HAVING AN ADDRESS IS OPTIONAL TO EMPLOYEEs.-->     
-        <join table="EMP_ADDR_MANY_TO_ONE"  optional="true"> 
-        
-            
-            <!--The key element defines the foreign-key column name in the 
+              ********HAVING AN ADDRESS IS OPTIONAL TO EMPLOYEEs.-->
+        <join table="EMP_ADDR_MANY_TO_ONE" optional="true">
+
+
+            <!--The
+            key element defines the foreign-key column name in the 
                 EMP_ADDR_MANY_TO_ONE
                 -The column attribute in the element defines the column name
                  where the id from Employee will be stored.
                 -The unique column sets that the employee_id can't be repeated
                  in this table, where it follows that 
-         ********AN EMPLOYEE HAS AT MOST ONE ADDRESS-->   
-            <key column="employee_id" unique="true"/>
-        
-    
-            <!--The <many-to-one> element indicates that many Employee objects
+         ********AN EMPLOYEE HAS AT MOST ONE ADDRESS-->
+            <key column="employee_id" unique="true" />
+
+
+            <!--The
+            <many-to-one> element indicates that many Employee objects
                 can be related to one (the same) Address object
                 -The 'name' attribute is set to the defined variable in the
                  parent class, in our case it is address, that must be mapped.
@@ -43,13 +46,13 @@
                  table EMP_ADDR_MANY_TO_ONE that is the target of the mapping
                  and is too the name of the foreign key column
                 -The 'not-null' attribute sets if null values are allowed-->
-         <!--  <many-to-one name="address" column="address_id" not-null="true"/>
+            <!--  <many-to-one name="address" column="address_id" not-null="true"/>
          -->
-    
+
         </join>
-        
-        <property name="firstName" column="first_name" type="string"/> 
-        <property name="lastName" column="last_name" type="string"/> 
-        <property name="salary" column="salary" type="int"/> 
-    </class> 
+
+        <property name="firstName" column="first_name" type="string" />
+        <property name="lastName" column="last_name" type="string" />
+        <property name="salary" column="salary" type="int" />
+    </class>
 </hibernate-mapping>
