@@ -164,8 +164,7 @@ public class SAXParserCalificaciones {
     // El SAXParser devuelve objeto calificaciones.
     Calificaciones c = new SAXParserCalificaciones(xml).calificaciones;
 
-    try (
-        RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
+    try (RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
 
       long pos = puntero.length(); //Tamaño del archivo.
       puntero.seek(pos); // Se coloca el puntero en la posicion especifica.
@@ -193,8 +192,7 @@ public class SAXParserCalificaciones {
    */
   public static void consultaNotas(String alu, File curso, Map<String, ArrayList<Long>> indice) throws IOException {
 
-    try (
-        RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
+    try (RandomAccessFile puntero = new RandomAccessFile(curso, "rw");) {
 
       for (Map.Entry<String, ArrayList<Long>> entry : indice.entrySet()) {
 

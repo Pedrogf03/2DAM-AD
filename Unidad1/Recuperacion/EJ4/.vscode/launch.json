@@ -6,6 +6,14 @@
   "configurations": [
     {
       "type": "java",
+      "name": "MostrarDirectorio",
+      "request": "launch",
+      "mainClass": "MostrarDirectorio",
+      "projectName": "EJ4_ce54fd04",
+      "args": "C:/Users/bleik/Desktop"
+    },
+    {
+      "type": "java",
       "name": "Current File",
       "request": "launch",
       "mainClass": "${file}"
@@ -15,8 +23,7 @@
       "name": "MostrarDirectorio",
       "request": "launch",
       "mainClass": "MostrarDirectorio",
-      "projectName": "EJ4_cbba1ecb",
-      "args": "C:/Users/bleik/Desktop"
+      "projectName": "EJ4_cbba1ecb"
     }
   ]
 }
