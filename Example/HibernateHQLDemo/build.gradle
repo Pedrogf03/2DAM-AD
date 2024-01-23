@@ -1,0 +1,11 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+archivesBaseName = 'hibernate-4'
+version = '1' 
+repositories {
+    mavenCentral()
+}
+dependencies {
+	compile 'org.hibernate:hibernate-core:4.3.8.Final'
+	compile 'mysql:mysql-connector-java:5.1.34'
+} 

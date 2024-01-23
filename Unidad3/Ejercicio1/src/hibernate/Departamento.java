@@ -19,7 +19,6 @@ public class Departamento  implements java.io.Serializable {
 
     public Departamento() {
     }
-
 	
     public Departamento(int idDepartamento, Direccion direccion, Empleado jefe, String denominacion) {
         this.idDepartamento = idDepartamento;
@@ -34,49 +33,47 @@ public class Departamento  implements java.io.Serializable {
        this.denominacion = denominacion;
        this.empleados = empleados;
     }
-   
+
     public int getIdDepartamento() {
-        return this.idDepartamento;
+        return idDepartamento;
     }
-    
+
     public void setIdDepartamento(int idDepartamento) {
         this.idDepartamento = idDepartamento;
     }
-    public Direccion getDireccion() {
-        return this.direccion;
-    }
-    
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
-    }
-    public Empleado getJefe() {
-        return this.jefe;
-    }
-    
-    public void setJefe(Empleado empleado) {
-        this.jefe = empleado;
-    }
+
     public String getDenominacion() {
-        return this.denominacion;
+        return denominacion;
     }
-    
+
     public void setDenominacion(String denominacion) {
         this.denominacion = denominacion;
     }
 
-    public Set getEmpleados() {
-        return this.empleados;
+    public Direccion getDireccion() {
+        return direccion;
     }
-    
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+
+    public Empleado getJefe() {
+        return jefe;
+    }
+
+    public void setJefe(Empleado jefe) {
+        this.jefe = jefe;
+    }
+
+    public Set getEmpleados() {
+        return empleados;
+    }
+
     public void setEmpleados(Set empleados) {
         this.empleados = empleados;
     }
-
-
-
-
-
-
+    
 }
 
 

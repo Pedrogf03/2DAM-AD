@@ -10,18 +10,25 @@ import java.util.Set;
  */
 public class Direccion  implements java.io.Serializable {
 
-
      private int idDireccion;
      private String calle;
      private String numero;
      private String cp;
      private String provincia;
+     
     public Direccion() {
     }
 
 	
     public Direccion(int idDireccion, String calle, String numero, String cp, String provincia) {
         this.idDireccion = idDireccion;
+        this.calle = calle;
+        this.numero = numero;
+        this.cp = cp;
+        this.provincia = provincia;
+    }
+    
+    public Direccion(String calle, String numero, String cp, String provincia) {
         this.calle = calle;
         this.numero = numero;
         this.cp = cp;

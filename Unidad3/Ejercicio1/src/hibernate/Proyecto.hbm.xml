@@ -3,27 +3,14 @@
 <!-- Generated 18-ene-2024 11:41:09 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
   <class name="hibernate.Proyecto" table="proyecto">
-      
-    <id name="codigo" type="int" column="codigo"/>
+    <id name="codigo" type="int" column="codigo">
       <generator class="native"/>
     </id>
-    
     <many-to-one class="hibernate.Departamento" name="departamento" column="idDpto" not-null="true"/>
-    
     <many-to-one class="hibernate.Empleado" name="responsable" column="responsable" not-null="true" unique="true"/>
-
     <property name="nombre" type="string" length="45" column="nombre" not-null="true"/>
-
     <property name="desc" type="string" length="100" column="desc" not-null="true"/>
-
     <property name="fechaInicio" type="date" length="10" column="fechaInicio" not-null="true"/>
-
-    <property name="fechFin" type="date" length="10" column="fechFin" not-null="true"/>
-
-    <set name="empleados" cascade="all" table="proyectosDelEmpleado" >
-      <key column="codProyecto"/>
-      <many-to-many column="idEmpleado" class="hibernate.Empleado" unique="true"/>
-    </set>
-    
+    <property name="fechFin" type="date" length="10" column="fechFin" not-null="true"/>   
   </class>
 </hibernate-mapping>

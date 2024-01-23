@@ -3,33 +3,23 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 18-ene-2024 11:41:09 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="hibernate.Empleado" table="empleado">
-        
-        <id name="idEmpleado" type="int" column="idEmpleado" />
-            <generator class="native" />
-        </id>
-        
-        <property name="nombre" type="string" column="nombre" length="45" not-null="true" /> 
-        
-        <property name="apellidos" type="string" column="apellidos" length="200" not-null="true" />
-            
-        <property name="salario" type="int" column="salario" not-null="true" />
-        
-        <many-to-one name="direccion" class="hibernate.Direccion" column="idDireccion" not-null="true"/>
-        
-        <many-to-one name="departamento" class="hibernate.Departamento" column="idDpto" not-null="true" />     
-        
+    <class name="hibernate.Empleado" table="empleado">        
+        <id name="idEmpleado" type="int" column="idEmpleado">
+            <generator class="native"/>
+        </id>        
+        <property name="nombre" type="string" column="nombre" length="45" not-null="true"/>         
+        <property name="apellidos" type="string" column="apellidos" length="200" not-null="true"/>            
+        <property name="salario" type="int" column="salario" not-null="true"/>        
+        <many-to-one name="direccion" class="hibernate.Direccion" column="idDireccion" not-null="true"/>        
+        <many-to-one name="departamento" class="hibernate.Departamento" column="idDpto" not-null="true"/>             
          <set name="tareas" cascade="all">
-            <key column="idEmpleado" not-null="true" unique="true" />
-            <one-to-many class="hibernate.Tarea" />
+            <key column="idEmpleado" not-null="true" unique="true"/>
+            <one-to-many class="hibernate.Tarea"/>
         </set> 
-
-        <many-to-one name="vehiculo" class="hibernate.Vehiculo" column="idVehiculo" unique="true" />
-        
-        <set name="proyectos" cascade="all" table="proyectosDelEmpleado" >
+        <many-to-one name="vehiculo" class="hibernate.Vehiculo" column="idVehiculo" unique="true"/>        
+        <set name="proyectos" cascade="all" table="proyectosDelEmpleado">
             <key column="idEmpleado"/>
             <many-to-many column="codProyecto" class="hibernate.Proyecto" unique="true"/>
         </set>
-
     </class>
 </hibernate-mapping>

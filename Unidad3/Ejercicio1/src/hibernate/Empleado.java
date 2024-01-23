@@ -24,26 +24,34 @@ public class Empleado  implements java.io.Serializable {
     public Empleado() {
     }
 
-	
-    public Empleado(int idEmpleado, Departamento departamento, Direccion direccion, String nombre, String apellidos, int salario) {
+    public Empleado(int idEmpleado, String nombre, String apellidos, int salario, Direccion direccion, Departamento departamento, Vehiculo vehiculo, Set proyectos) {
         this.idEmpleado = idEmpleado;
-        this.departamento = departamento;
-        this.direccion = direccion;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.salario = salario;
+        this.direccion = direccion;
+        this.departamento = departamento;
+        this.vehiculo = vehiculo;
+        this.proyectos = proyectos;
     }
-    public Empleado(int idEmpleado, Departamento departamento, Direccion direccion, Vehiculo vehiculo, String nombre, String apellidos, int salario, Set tareas, Set proyectos) {
-       this.idEmpleado = idEmpleado;
-       this.departamento = departamento;
-       this.direccion = direccion;
-       this.vehiculo = vehiculo;
-       this.nombre = nombre;
-       this.apellidos = apellidos;
-       this.salario = salario;
-       this.tareas = tareas;
-       this.proyectos = proyectos;
+
+    public Empleado(int idEmpleado, String nombre, String apellidos, int salario, Direccion direccion, Departamento departamento) {
+        this.idEmpleado = idEmpleado;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.salario = salario;
+        this.direccion = direccion;
+        this.departamento = departamento;
     }
+
+    public Empleado(String nombre, String apellidos, int salario, Direccion direccion) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.salario = salario;
+        this.direccion = direccion;
+    }
+
+    
 
     public Set getProyectos() {
         return proyectos;

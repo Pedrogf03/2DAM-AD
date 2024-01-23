@@ -18,12 +18,11 @@ public class Proyecto  implements java.io.Serializable {
      private Date fechaInicio;
      private Date fechFin;
      private Empleado responsable;
-     //private Set empleados = new HashSet(0);
+     private Departamento departamento;
 
     public Proyecto() {
     }
-
-	
+    
     public Proyecto(int codigo, Empleado empleado, String nombre, String desc, Date fechaInicio, Date fechFin) {
         this.codigo = codigo;
         this.responsable = empleado;
@@ -32,68 +31,62 @@ public class Proyecto  implements java.io.Serializable {
         this.fechaInicio = fechaInicio;
         this.fechFin = fechFin;
     }
-    /*public Proyecto(int codigo, Empleado empleado, String nombre, String desc, Date fechaInicio, Date fechFin, Set empleados) {
-       this.codigo = codigo;
-       this.responsable = empleado;
-       this.nombre = nombre;
-       this.desc = desc;
-       this.fechaInicio = fechaInicio;
-       this.fechFin = fechFin;
-       this.empleados = empleados;
-    }*/
-   
+
     public int getCodigo() {
-        return this.codigo;
+        return codigo;
     }
-    
+
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-    public Empleado getEmpleado() {
-        return this.responsable;
-    }
-    
-    public void setEmpleado(Empleado empleado) {
-        this.responsable = empleado;
-    }
+
     public String getNombre() {
-        return this.nombre;
+        return nombre;
     }
-    
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public String getDesc() {
-        return this.desc;
+        return desc;
     }
-    
+
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
     public Date getFechaInicio() {
-        return this.fechaInicio;
+        return fechaInicio;
     }
-    
+
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
+
     public Date getFechFin() {
-        return this.fechFin;
+        return fechFin;
     }
-    
+
     public void setFechFin(Date fechFin) {
         this.fechFin = fechFin;
     }
-    
-    /*
-    public Set getEmpleados() {
-        return this.empleados;
+
+    public Empleado getResponsable() {
+        return responsable;
     }
-    
-    public void setEmpleados(Set empleados) {
-        this.empleados = empleados;
+
+    public void setResponsable(Empleado responsable) {
+        this.responsable = responsable;
     }
-    */
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
     
 }
 

@@ -5,32 +5,33 @@
  */
 package hibernate.util;
 
-import org.hibernate.cfg.AnnotationConfiguration;
+
+import org.hibernate.cfg.Configuration;
 import org.hibernate.SessionFactory;
 
-/**
- * Hibernate Utility class with a convenient method to get Session Factory
- * object.
- *
- * @author bleik
- */
-public class HibernateUtil {
 
-    private static final SessionFactory sessionFactory;
-    
-    static {
+public class HibernateUtil {
+    private static final SessionFactory sessionFactory = buildSessionFactory();
+
+    private static SessionFactory buildSessionFactory() {
         try {
-            // Create the SessionFactory from standard (hibernate.cfg.xml) 
-            // config file.
-            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+            // Crea la SessionFactory desde hibernate.cfg.xml
+            return new Configuration().configure().buildSessionFactory();
         } catch (Throwable ex) {
-            // Log the exception. 
-            System.err.println("Initial SessionFactory creation failed." + ex);
+            // Muestra un mensaje de error si la inicialización falla
+            System.err.println("La creación de la SessionFactory falló: " + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
-    
+
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
+    }
+
+    
+
+    public static void shutdown() {
+        // Cierra los caches y las conexiones de la pool
+        getSessionFactory().close();
     }
 }
