@@ -95,9 +95,9 @@ public class SAXParserCalificaciones {
     int option;
     Scanner sc = new Scanner(System.in);
 
-    do {
+    Map<String, ArrayList<Long>> indice = importarIndice("curso.idx");
 
-      Map<String, ArrayList<Long>> indice = generarIndice(curso);
+    do {
 
       System.out.println("-----Selecciona una opción-----");
       System.out.println("1.- Importar calificaciones.");
@@ -146,6 +146,8 @@ public class SAXParserCalificaciones {
         default:
           break;
       }
+
+      indice = generarIndice(curso);
 
     } while (option != 0);
 
@@ -315,6 +317,53 @@ public class SAXParserCalificaciones {
     indextmp.renameTo(indexf);
 
     return indice;
+
+  }
+
+  public static Map<String, ArrayList<Long>> importarIndice(String file) {
+
+    Map<String, ArrayList<Long>> indice = new TreeMap<>();
+
+    File f = new File(file);
+
+    if (f.exists()) {
+      try (RandomAccessFile idx = new RandomAccessFile(f, "r")) {
+
+        idx.seek(0);
+
+        String line;
+        while (idx.getFilePointer() < idx.length()) {
+
+          line = idx.readUTF();
+
+          String[] partes = line.split(";;");
+
+          indice.put(partes[0], new ArrayList<Long>());
+
+          for (int i = 1; i < partes.length; i++) {
+            indice.get(partes[0]).add(Long.parseLong(partes[i]));
+          }
+
+        }
+
+        return indice;
+
+      } catch (IOException e) {
+        e.printStackTrace();
+        return indice;
+      }
+
+    } else {
+
+      try {
+        f.createNewFile();
+        return indice;
+      } catch (IOException e) {
+        e.printStackTrace();
+        return indice;
+      }
+
+    }
 
   }
 
