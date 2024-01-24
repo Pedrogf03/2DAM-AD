@@ -24,8 +24,7 @@ public class SAXParserEmpleados {
       SAXParserFactory factory = SAXParserFactory.newInstance();
       SAXParser parser = factory.newSAXParser();
       parser.parse(
-          new File(
-              "empleados.xml"),
+          new File("empleados.xml"),
           new MyHandler());
     } catch (Exception e) {
       e.printStackTrace();

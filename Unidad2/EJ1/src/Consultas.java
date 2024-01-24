@@ -8,7 +8,7 @@ public class Consultas {
 
   // ---------------------- MySQL -----------------------
   static String driver = "com.mysql.cj.jdbc.Driver";
-  static String url = "jdbc:mysql://localhost/hibernate";
+  static String url = "jdbc:mysql://localhost/empresa";
 
   // ---------------- Parámetros de BBDD ----------------
   static String db_drivers = driver;

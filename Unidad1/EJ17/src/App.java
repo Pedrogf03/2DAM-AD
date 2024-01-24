@@ -99,8 +99,7 @@ public class App {
     for (int i = 0; i < empleadoNodes.getLength(); i++) {
       Element empleado = (Element) empleadoNodes.item(i);
       int id = Integer.parseInt(
-        empleado.getElementsByTagName("id").item(0).getTextContent()
-      );
+          empleado.getElementsByTagName("id").item(0).getTextContent());
       if (id > maxId) {
         maxId = id;
       }
@@ -110,7 +109,7 @@ public class App {
     return maxId + 1;
   }
 
-  public static int agregarEmpleado( File f, String nombre, String departamento, String ciudad, int salario) {
+  public static int agregarEmpleado(File f, String nombre, String departamento, String ciudad, int salario) {
     try {
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -193,8 +192,7 @@ public class App {
       for (int i = 0; i < empleadoNodes.getLength(); i++) {
         Element empleado = (Element) empleadoNodes.item(i);
         int empleadoId = Integer.parseInt(
-          empleado.getElementsByTagName("id").item(0).getTextContent()
-        );
+            empleado.getElementsByTagName("id").item(0).getTextContent());
 
         if (empleadoId == id) {
           // Si se encuentra el empleado con el ID proporcionado, se elimina
@@ -242,8 +240,7 @@ public class App {
       for (int i = 0; i < empleadoNodes.getLength(); i++) {
         Element empleado = (Element) empleadoNodes.item(i);
         int empleadoId = Integer.parseInt(
-          empleado.getElementsByTagName("id").item(0).getTextContent()
-        );
+            empleado.getElementsByTagName("id").item(0).getTextContent());
 
         if (empleadoId == id) {
           // Si se encuentra el empleado con el ID proporcionado, se modifican sus datos
@@ -294,17 +291,15 @@ public class App {
       for (int i = 0; i < empleadoNodes.getLength(); i++) {
         Element empleado = (Element) empleadoNodes.item(i);
         int empleadoId = Integer.parseInt(
-          empleado.getElementsByTagName("id").item(0).getTextContent()
-        );
+            empleado.getElementsByTagName("id").item(0).getTextContent());
 
         if (empleadoId == id) {
           // Si se encuentra el empleado con el ID proporcionado, se muestran sus datos por pantalla
           System.out.println(
-            "Nombre: " + empleado.getElementsByTagName("nombre").item(0).getTextContent() +
-            "\nDepartamento: " + empleado.getElementsByTagName("departamento").item(0).getTextContent() +
-            "\nCiudad: " + empleado.getElementsByTagName("ciudad").item(0).getTextContent() + 
-            "\nSalario: " + empleado.getElementsByTagName("salario").item(0).getTextContent()
-          );
+              "Nombre: " + empleado.getElementsByTagName("nombre").item(0).getTextContent() +
+                  "\nDepartamento: " + empleado.getElementsByTagName("departamento").item(0).getTextContent() +
+                  "\nCiudad: " + empleado.getElementsByTagName("ciudad").item(0).getTextContent() +
+                  "\nSalario: " + empleado.getElementsByTagName("salario").item(0).getTextContent());
 
           // Devuelve 0 para indicar éxito
           return 0;

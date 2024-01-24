@@ -7,4 +7,18 @@
     <ciudad>Cadiz</ciudad>
     <salario>1350</salario>
   </empleado>
+  <empleado>
+    <id>2</id>
+    <nombre>Pedro Gonzalez Fernandez</nombre>
+    <departamento>Informatica</departamento>
+    <ciudad>Cadiz</ciudad>
+    <salario>1350</salario>
+  </empleado>
+  <empleado>
+    <id>3</id>
+    <nombre>Pedro Gonzalez Fernandez</nombre>
+    <departamento>Informatica</departamento>
+    <ciudad>Cadiz</ciudad>
+    <salario>1350</salario>
+  </empleado>
 </empleados>
