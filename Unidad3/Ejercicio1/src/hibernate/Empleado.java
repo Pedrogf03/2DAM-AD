@@ -17,7 +17,7 @@ public class Empleado  implements java.io.Serializable {
      private int salario;
      private Direccion direccion;
      private Departamento departamento;
-     private Set tareas = new HashSet(0);
+     private Set tareas = new HashSet();
      private Vehiculo vehiculo;
      private Set proyectos;
 
@@ -110,14 +110,29 @@ public class Empleado  implements java.io.Serializable {
     public void setSalario(int salario) {
         this.salario = salario;
     }
-    public Set getTareas() {
+    public Set<Tarea> getTareas() {
         return this.tareas;
     }
     
     public void setTareas(Set tareas) {
         this.tareas = tareas;
     }
-
+    
+    public boolean compareTo(Empleado otroEmpleado) {
+        if (!this.nombre.equals(otroEmpleado.nombre)) {
+            return false;
+        }
+        if (!this.apellidos.equals(otroEmpleado.apellidos)) {
+            return false;
+        }
+        if (this.salario != otroEmpleado.salario) {
+            return false;
+        }
+        if (!this.direccion.compareTo(otroEmpleado.direccion)) {
+            return false;
+        }
+        return true;
+    }
 
 }
 

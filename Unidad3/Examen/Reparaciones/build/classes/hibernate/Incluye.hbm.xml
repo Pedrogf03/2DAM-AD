@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05-feb-2024 13:22:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Incluye" table="incluye" catalog="reparaciones" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.IncluyeId">
+            <key-property name="codigoConcepto" type="string">
+                <column name="codigoConcepto" length="45" />
+            </key-property>
+            <key-property name="codigoReparacion" type="string">
+                <column name="codigoReparacion" length="45" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="concepto" class="hibernate.Concepto" update="false" insert="false" fetch="select">
+            <column name="codigoConcepto" length="45" not-null="true" />
+        </many-to-one>
+        <many-to-one name="reparacion" class="hibernate.Reparacion" update="false" insert="false" fetch="select">
+            <column name="codigoReparacion" length="45" not-null="true" />
+        </many-to-one>
+        <property name="precio" type="double">
+            <column name="precio" precision="22" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

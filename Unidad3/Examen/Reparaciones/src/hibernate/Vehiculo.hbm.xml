@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05-feb-2024 13:22:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Vehiculo" table="vehiculo" catalog="reparaciones" optimistic-lock="version">
+        <id name="matricula" type="string">
+            <column name="matricula" length="10" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="propietario" class="hibernate.Cliente" fetch="select">
+            <column name="propietario" not-null="true" />
+        </many-to-one>
+        <property name="marca" type="string">
+            <column name="marca" length="45" not-null="true" />
+        </property>
+        <property name="modelo" type="string">
+            <column name="modelo" length="45" not-null="true" />
+        </property>
+        <set name="reparaciones" table="reparacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="matricula" length="10" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Reparacion" />
+        </set>
+    </class>
+</hibernate-mapping>

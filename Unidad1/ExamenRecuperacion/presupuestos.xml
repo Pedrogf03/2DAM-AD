@@ -1,0 +1,12 @@
+<presupuestos>
+  <presupuesto matricula="1234 AA">
+    <motor>1200</motor>
+    <frenos>45</frenos>
+    <total>1245</total>
+  </presupuesto>
+  <presupuesto matricula="2244 BB">
+    <motor>250</motor>
+    <frenos>55</frenos>
+    <total>305</total>
+  </presupuesto>
+</presupuestos>

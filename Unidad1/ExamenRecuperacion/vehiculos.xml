@@ -1,0 +1,18 @@
+<vehiculos>
+    <vehiculo id="25">
+        <matricula>1234 AA</matricula>
+        <propietario>
+            <dni>12345678A </dni>
+            <nombre>José Perez Moreno</nombre>
+        </propietario>
+    </vehiculo>
+
+    <vehiculo id="7">
+        <matricula> 2244 BB</matricula>
+        <propietario>
+            <dni> 11223344Z</dni>
+            <nombre>Luisa Romero López </nombre>
+        </propietario>
+    </vehiculo>
+
+</vehiculos>

@@ -10,9 +10,9 @@
         <property name="nombre" type="string" column="nombre" length="45" not-null="true"/>         
         <property name="apellidos" type="string" column="apellidos" length="200" not-null="true"/>            
         <property name="salario" type="int" column="salario" not-null="true"/>        
-        <many-to-one name="direccion" class="hibernate.Direccion" column="idDireccion" not-null="true"/>        
-        <many-to-one name="departamento" class="hibernate.Departamento" column="idDpto" not-null="true"/>             
-         <set name="tareas" cascade="all">
+        <many-to-one name="direccion" class="hibernate.Direccion" column="idDireccion" not-null="true" cascade="all"/>        
+        <many-to-one name="departamento" class="hibernate.Departamento" column="idDpto"/>             
+        <set name="tareas" cascade="all">
             <key column="idEmpleado" not-null="true" unique="true"/>
             <one-to-many class="hibernate.Tarea"/>
         </set> 

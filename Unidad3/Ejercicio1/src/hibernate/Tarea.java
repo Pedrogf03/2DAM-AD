@@ -16,6 +16,12 @@ public class Tarea  implements java.io.Serializable {
 
     public Tarea() {
     }
+    
+    public Tarea(String denominacion, String descripcion, String prioridad) {
+       this.denominacion = denominacion;
+       this.descripcion = descripcion;
+       this.prioridad = prioridad;
+    }
 
     public Tarea(int idTarea, String denominacion, String descripcion, String prioridad) {
        this.idTarea = idTarea;

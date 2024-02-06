@@ -1,0 +1,12 @@
+<conceptos>
+    <concepto nombre=" motor">
+        <leve> 250</leve>
+        <medio>1200</medio>
+        <grave>3000</grave>
+    </concepto>
+    <concepto nombre="frenos">
+        <leve> 45</leve>
+        <medio>55</medio>
+        <grave>75 </grave>
+    </concepto>
+</conceptos>

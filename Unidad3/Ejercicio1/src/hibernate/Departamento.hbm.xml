@@ -7,8 +7,8 @@
       <generator class="native"/>
     </id>
     <property name="denominacion" type="string" length="50" column="denominacion" not-null="true"/>
-    <many-to-one class="hibernate.Direccion" name="direccion" column="idDireccion" not-null="true" unique="true"/>
-    <many-to-one class="hibernate.Empleado" name="jefe" column="jefe" unique="true"/>
+    <many-to-one class="hibernate.Direccion" name="direccion" column="idDireccion" not-null="true" unique="true" cascade="all"/>
+    <many-to-one class="hibernate.Empleado" name="jefe" column="jefe" unique="true" not-null="true"/>
     <set name="empleados" cascade="all">
         <key column="idDpto"/>
         <one-to-many class="hibernate.Empleado"/>

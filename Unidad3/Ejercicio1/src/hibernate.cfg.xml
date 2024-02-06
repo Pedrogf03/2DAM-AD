@@ -46,9 +46,7 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://localhost/empresa</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">123456</property>
-    
     <property name="hibernate.show_sql">false</property>
-    
     <mapping resource="hibernate/Vehiculo.hbm.xml"/>
     <mapping resource="hibernate/Direccion.hbm.xml"/>
     <mapping resource="hibernate/Proyecto.hbm.xml"/>
@@ -56,5 +54,6 @@ Contributor(s):
     <mapping resource="hibernate/Tarea.hbm.xml"/>
     <mapping resource="hibernate/Empleado.hbm.xml"/>
     <mapping resource="hibernate/Infofinanciera.hbm.xml"/>
+    <mapping resource="hibernate.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

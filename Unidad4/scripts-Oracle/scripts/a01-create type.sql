@@ -1,0 +1,94 @@
+
+CREATE OR REPLACE TYPE DIRECCION AS OBJECT
+(
+  CALLE  VARCHAR2(25),
+  CIUDAD VARCHAR2(20),
+  CODIGO_POST NUMBER(5)
+);
+/
+-- 
+-- 
+CREATE OR REPLACE TYPE PERSONA AS OBJECT
+(
+  CODIGO NUMBER,
+  NOMBRE VARCHAR2(35),
+  DIREC  DIRECCION,
+  FECHA_NAC DATE
+);
+/
+--PROBANDO TIPOS
+DECLARE
+  DIR DIRECCION := DIRECCION(NULL,NULL,NULL);
+  P PERSONA := PERSONA(NULL,NULL,NULL,NULL);
+  
+  DIR2 DIRECCION;  -- SE INICIA CON NEW
+  P2 PERSONA; -- SE INICIA CON NEW
+BEGIN  
+  DIR.CALLE := 'La Mina, 3';  
+  DIR.CIUDAD := 'Guadalajara'; 
+  DIR.CODIGO_POST := 19001; 
+  --
+  P.CODIGO := 1; 
+  P.NOMBRE := 'JUAN'; 
+  P.DIREC := DIR; 
+  P.FECHA_NAC := '10/11/1988';
+  DBMS_OUTPUT.PUT_LINE('NOMBRE: ' ||P.NOMBRE ||' * CALLE: '||P.DIREC.CALLE);
+  --
+  DIR2 := NEW DIRECCION ('C/Madrid 10','Toledo',45002);
+  P2 := NEW PERSONA(2,'JUAN', DIR2, SYSDATE);
+  DBMS_OUTPUT.PUT_LINE('NOMBRE: ' ||P2.NOMBRE || ' * CALLE: '  ||P2.DIREC.CALLE );  
+END;
+/
+
+-- ACTIVIDAD: 
+--*Crear un tipo con nombre T_ALUMNO, con 4 atributos, uno de tipo PERSONA y tres que indiquen las notas de la primera, segunda y tercera evaluacion. Despues crea un bloque PL/SQL e inicializa un objeto de ese tipo.
+
+--*Crear un tipo T_PROFESOR con atributos de tipo PERSONA y otro que indique la especialidad. 
+-- Borrar el tipo T_PROFESOR (DROP TYPE).
+
+
+CREATE OR REPLACE TYPE T_ALUMNO AS OBJECT 
+(
+    P PERSONA,
+    EVA1 NUMBER,
+    EVA2 NUMBER,
+    EVA3 NUMBER
+);
+/
+
+DECLARE
+
+  DIR DIRECCION := DIRECCION('La Mina, 3','Guadalajara',19001);
+  P PERSONA := PERSONA(1,'JUAN',DIR,'10/11/1988');
+  A T_ALUMNO := T_ALUMNO(P, 6, 7, 5);
+  
+BEGIN  
+
+  DBMS_OUTPUT.PUT_LINE('NOMBRE: '||A.P.NOMBRE ||' * CALLE: '||A.P.DIREC.CALLE||' * EVA1: '||A.EVA1);
+
+END;
+/
+
+CREATE OR REPLACE TYPE T_PROFESOR AS OBJECT
+(
+
+    P PERSONA,
+    ESP VARCHAR(50)
+
+);
+/
+
+DECLARE
+
+  DIR DIRECCION := DIRECCION('La Mina, 3','Guadalajara',19001);
+  P PERSONA := PERSONA(1,'JUAN',DIR,'10/11/1988');
+  T T_PROFESOR := T_PROFESOR(P, 'informatica');
+  
+BEGIN  
+
+  DBMS_OUTPUT.PUT_LINE('NOMBRE: '||T.P.NOMBRE ||' * CALLE: '||T.P.DIREC.CALLE||' * ESPECIALIDAD: '||T.ESP);
+
+END;
+/
+
+DROP TYPE T_PROFESOR;
