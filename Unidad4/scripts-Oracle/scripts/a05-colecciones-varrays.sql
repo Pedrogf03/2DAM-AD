@@ -1,26 +1,26 @@
---En las BDROO (Bases de Datos Relacionales Orientadas a Objetos) se puede almacenar una colección de elementos en una única columna de una tabla. En el caso de Oracle esto es posible mediante:
+--En las BDROO (Bases de Datos Relacionales Orientadas a Objetos) se puede almacenar una coleccion de elementos en una unica columna de una tabla. En el caso de Oracle esto es posible mediante:
 
---* VARRAY: El tipo VARRAY es similar al tipo array de Java, ya que permite almacenar un conjunto, del tamaño indicado,de elementos, todos del mismo tipo, y cada elemento tiene un índice asociado
+--* VARRAY: El tipo VARRAY es similar al tipo array de Java, ya que permite almacenar un conjunto, del tamaño indicado,de elementos, todos del mismo tipo, y cada elemento tiene un indice asociado
 
 --* Tablas anidadas: Permiten almacenar en una columna de una tabla, otra tabla
 ----------------------------------
 
 
---1) DEFINICIÓN DE UN TIPO definido por el usuario como VARRAY. Uso de ese tipo en la DECLARACIÓN DE UNA COLUMNA en una tabla. 
+--1) DEFINICION DE UN TIPO definido por el usuario como VARRAY. Uso de ese tipo en la DECLARACION DE UNA COLUMNA en una tabla. 
 
 
---Definición de un tipo definido por el usuario como VARRAY
+--Definicion de un tipo definido por el usuario como VARRAY
 
 CREATE TYPE TELEFONO AS VARRAY(3) OF VARCHAR2(9); 
 
 /
 DESC TELEFONO;
 
---En la vista USER_VARRAYS se obtiene información de las tablas que tienen columnas VARRAY
+--En la vista USER_VARRAYS se obtiene informacion de las tablas que tienen columnas VARRAY
 
 
 
---Uso de ese tipo en la declaración de una columna en una tabla
+--Uso de ese tipo en la declaracion de una columna en una tabla
 
 CREATE TABLE AGENDA 
 (
@@ -33,10 +33,10 @@ DESC AGENDA;
 
 
 
---2) MANIPULACIÓN DE TUPLAS (insert, update,delete) en una tabla con columnas VARRAY
+--2) MANIPULACION DE TUPLAS (insert, update,delete) en una tabla con columnas VARRAY
 
 
---Inserción de tuplas
+--Insercion de tuplas
 
 SELECT * FROM AGENDA;
 
@@ -55,7 +55,7 @@ SELECT * FROM AGENDA ;
 
 
 
---Modificación de tuplas
+--Modificacion de tuplas
 
 
   UPDATE AGENDA 
@@ -67,7 +67,7 @@ SELECT * FROM AGENDA ;
 
 --3) RECORRER los elementos de un array
 
---   (el método COUNT aplicado a una columna de tipo VARRAY proporciona el tamaño del array)
+--   (el metodo COUNT aplicado a una columna de tipo VARRAY proporciona el tama�o del array)
 
 
 DECLARE
@@ -76,7 +76,7 @@ DECLARE
 BEGIN
   FOR I IN C1 LOOP
     DBMS_OUTPUT.PUT_LINE(I.NOMBRE ||
-        ', Número de Telefonos: '||I.TELEF.COUNT);
+        ', Numero de Telefonos: '||I.TELEF.COUNT);
     CAD:='*';
     FOR J IN 1 .. I.TELEF.COUNT LOOP   
       CAD:=CAD ||I.TELEF(J)||'*';
@@ -88,9 +88,9 @@ END;
 
 
 
---4) DEFINICIÓN DE UN PROCEDIMIENTO CON PARÁMETROS DE TIPO VARRAY para insertar datos en una tablaPARA
+--4) DEFINICION DE UN PROCEDIMIENTO CON PARAMETROS DE TIPO VARRAY para insertar datos en una tabla
 
--- El procedimiento recibe el nombre y el array de teléfonos
+-- El procedimiento recibe el nombre y el array de telefonos
 
 
 
@@ -115,8 +115,8 @@ SELECT * FROM AGENDA;
 
 
 
---5) EJEMPLO que visualiza los teléfonos de un nombre.
---   (métodos asociados a un VARRAY: COUNT, FIRST, LAST, LIMIT, EXTEND, TRIM, DELETE, ...)
+--5) EJEMPLO que visualiza los telefonos de un nombre.
+--   (metodos asociados a un VARRAY: COUNT, FIRST, LAST, LIMIT, EXTEND, TRIM, DELETE, ...)
 
 DECLARE 
   TEL TELEFONO := TELEFONO(NULL, NULL, NULL); 
@@ -124,19 +124,19 @@ BEGIN
   SELECT TELEF INTO  TEL FROM AGENDA WHERE NOMBRE = 'MARTA';
 
   --Visualizar Datos
-  DBMS_OUTPUT.PUT_LINE('Nº DE TELÉFONOS ACTUALES:   ' || TEL.COUNT);
-  DBMS_OUTPUT.PUT_LINE('ÍNDICE DEL PRIMER ELEMENTO: ' || TEL.FIRST);
-  DBMS_OUTPUT.PUT_LINE('ÍNDICE DEL ÚLTIMO ELEMENTO: ' || TEL.LAST);
-  DBMS_OUTPUT.PUT_LINE('MÁXIMO Nº DE TLFS PERMITIDO:' || TEL.LIMIT);
+  DBMS_OUTPUT.PUT_LINE('N� DE TELEFONOS ACTUALES:    ' || TEL.COUNT);
+  DBMS_OUTPUT.PUT_LINE('INDICE DEL PRIMER ELEMENTO:  ' || TEL.FIRST);
+  DBMS_OUTPUT.PUT_LINE('INDICE DEL ULTIMO ELEMENTO:  ' || TEL.LAST);
+  DBMS_OUTPUT.PUT_LINE('MAXIMO N� DE TLFS PERMITIDO: ' || TEL.LIMIT);
 
-  --Añade un número de teléfono a MARTA   
+  --A�ade un numero de telefono a MARTA   
   TEL.EXTEND; 
   TEL(TEL.COUNT):= '123000000';     
   UPDATE AGENDA A SET A.TELEF = TEL WHERE NOMBRE = 'MARTA';   
     
-  --Elimina un teléfono   
+  --Elimina un telefono   
   SELECT TELEF INTO TEL FROM AGENDA WHERE NOMBRE = 'MANUEL';     
-  TEL.TRIM;   --Elimina el último elemento del array    
+  TEL.TRIM;   --Elimina el ultimo elemento del array    
   TEL.DELETE; --Elimina todos los elementos
   UPDATE AGENDA A SET A.TELEF = TEL WHERE NOMBRE = 'MANUEL';    
 END;
@@ -145,17 +145,17 @@ END;
 ------------------------------------------------------------
 --ACTIVIDADES
 
---Definir una función almacenada que reciba un nombre de la agenda y devuelva el primer teléfono que tenga. Realiza un bloque PL/SQL que haga uso de la función
+--Definir una funcion almacenada que reciba un nombre de la agenda y devuelva el primer teléfono que tenga. Realiza un bloque PL/SQL que haga uso de la funcion
 
---Modificar el tipo T_ALUMNO para que incluya un VARRAY de hasta 5 teléfonos y otro array de 10 elementos que contenga las faltas acumuladas en cada uno de los 10 meses del curso escolar (de Septiembre a Junio).
+--Modificar el tipo T_ALUMNO para que incluya un VARRAY de hasta 5 teléefonos y otro array de 10 elementos que contenga las faltas acumuladas en cada uno de los 10 meses del curso escolar (de Septiembre a Junio).
 
 --Redefinir el constructor adecuadamente
 
---Insertar dos alumnos; del primer se conocen dos números de teléfono y las faltas de los meses de septiembre a Diciembre. Del segundo no se tienen datos sobre teléfonos ni faltas
+--Insertar dos alumnos; del primer se conocen dos números de telefono y las faltas de los meses de septiembre a Diciembre. Del segundo no se tienen datos sobre telefonos ni faltas
 
---Modificar el segundo alumno indicando 3 números de teléfono y 10 faltas en septiembre
+--Modificar el segundo alumno indicando 3 numeros de telefono y 10 faltas en septiembre
 
---Mostrar los datos que se tienen de todos los alumnos, incluyendo teléfonos y faltas
+--Mostrar los datos que se tienen de todos los alumnos, incluyendo telefonos y faltas
 
 
 

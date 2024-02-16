@@ -1,33 +1,32 @@
 
 --TABLAS ANIDADAS:
 
---Una tabla anidada es una colección formada por un conjunto de elementos, todos del mismo tipo, no siendo necesario especificar el tamaña máximo máximo de una tabla anidada. 
---La tabla anidada está contenida en una columna y el tipo de esta columna debe ser un tipo de objeto existente en la base de datos
+--Una tabla anidada es una coleccion formada por un conjunto de elementos, todos del mismo tipo, no siendo necesario especificar el tama�a maximo maximo de una tabla anidada. 
+--La tabla anidada esta contenida en una columna y el tipo de esta columna debe ser un tipo de objeto existente en la base de datos
 
 
 
 --1) DEFINICION DE UNA TABLA QUE CONTIENE UNA TABLA ANIDADA
 
---La 'TABLA_ANIDADA' es un tipo que permitirá almacenar objetos de tipo 'DIRECCION'
+--La 'TABLA_ANIDADA' es un tipo que permitira almacenar objetos de tipo 'DIRECCION'
 CREATE TYPE TABLA_ANIDADA AS TABLE OF DIRECCION; 
 /
 
 
---Definición de una columna, en una tabla, utilizando como tipo el 'TABLE' definido anteriormente
+--Definicion de una columna, en una tabla, utilizando como tipo el 'TABLE' definido anteriormente
 
-CREATE TABLE EJEMPLO_TABLA_ANIDADA 
-(
+CREATE TABLE EJEMPLO_TABLA_ANIDADA (
  ID NUMBER(2),
  APELLIDOS VARCHAR2(35),
- DIREC  TABLA_ANIDADA
-)NESTED TABLE DIREC STORE AS DIREC_ANIDADA;
+ DIREC TABLA_ANIDADA
+) NESTED TABLE DIREC STORE AS DIREC;
 
---La cláusula 'NESTED TABLE' identifica el nombre de la columna que contendrá la tabla anidada.
---La cláusula 'STORE AS' especifica el nombre de la tabla ('DIREC_ANIDADA') en la que se van a almacenar las direcciones que se representan en el atributo 'DIREC' de cualquier objeto de la tabla 'EJEMPLO_TABLA_ANIDADA'. 
+--La clausula 'NESTED TABLE' identifica el nombre de la columna que contendra la tabla anidada.
+--La clausula 'STORE AS' especifica el nombre de la tabla ('DIREC_ANIDADA') en la que se van a almacenar las direcciones que se representan en el atributo 'DIREC' de cualquier objeto de la tabla 'EJEMPLO_TABLA_ANIDADA'. 
 
 
-
-desc direc_anidada;
+desc DIRECCION;
+desc direc;
 desc direccion;
 desc tabla_anidada;
 desc EJEMPLO_TABLA_ANIDADA ;
@@ -36,7 +35,7 @@ desc EJEMPLO_TABLA_ANIDADA ;
 
 --2) INSERTAR datos en una tabla y en su tabla anidada
 
---Se inserta el id, el nombre y la tabla anidada vacía:
+--Se inserta el id, el nombre y la tabla anidada vacia:
 
 insert into EJEMPLO_TABLA_ANIDADA 
     values (5, 'PEREZ', TABLA_ANIDADA());
@@ -51,14 +50,14 @@ INSERT INTO EJEMPLO_TABLA_ANIDADA VALUES
   TABLA_ANIDADA (
     DIRECCION ('C/Los manantiales 5', 'GUADALAJARA', 19004),
     DIRECCION ('C/Los manantiales 10', 'GUADALAJARA', 19004),
-    DIRECCION ('C/Av de Paris 25', 'CÁCERES', 10005),
+    DIRECCION ('C/Av de Paris 25', 'C�?CERES', 10005),
     DIRECCION ('C/Segovia 23-3A', 'TOLEDO', 45005)
   )
 );
 
-INSERT INTO EJEMPLO_TABLA_ANIDADA VALUES (2, 'MARTÍN', 
+INSERT INTO EJEMPLO_TABLA_ANIDADA VALUES (2, 'MART�?N', 
   TABLA_ANIDADA (
-    DIRECCION ('C/Huesca 5', 'ALCALÁ DE H', 28804),
+    DIRECCION ('C/Huesca 5', 'ALCAL�? DE H', 28804),
     DIRECCION ('C/Madrid 20', 'ALCORCÓN', 28921)
   )
 );
@@ -94,75 +93,59 @@ WHERE ID=1;
 
 --USANDO CURSOR PARA SELECCIONAR CALLES
 -- POR CADA APELLIDO SUS CALLES, 1 FILA POR APELLIDO
-SELECT ID, APELLIDOS,  CURSOR(SELECT TT.CALLE  FROM TABLE(DIREC) TT )
+SELECT ID, APELLIDOS, CURSOR(SELECT TT.CALLE  FROM TABLE(DIREC) TT )
 FROM EJEMPLO_TABLA_ANIDADA ;
 
 
 -- CONSULTAS CON CURSORES
---Número de direcciones de cada persona
+--Numero de direcciones de cada persona
 
 SELECT ID, APELLIDOS, CURSOR(SELECT count(TT.CALLE) FROM TABLE(T.DIREC) TT)
 FROM EJEMPLO_TABLA_ANIDADA T;
 
-SELECT ID, APELLIDOS, count(*)
-FROM EJEMPLO_TABLA_ANIDADA T, TABLE(T.DIREC)
-GROUP BY ID, APELLIDOS;
+SELECT ID, APELLIDOS, count(*) FROM EJEMPLO_TABLA_ANIDADA T, TABLE(T.DIREC) GROUP BY ID, APELLIDOS;
 
-
-
-----Si queremos seleccionar el número 
+----Si queremos seleccionar el numero 
 --de direcciones de cada persona DE LA CIUDAD DE GUADALAJARA
-SELECT ID, APELLIDOS, CURSOR (
-                      SELECT count(*) 
-                      FROM  TABLE(DIREC)  
-                      where ciudad ='GUADALAJARA')
-FROM EJEMPLO_TABLA_ANIDADA;
+SELECT ID, APELLIDOS, CURSOR (SELECT count(*) FROM  TABLE(DIREC) where ciudad ='GUADALAJARA') FROM EJEMPLO_TABLA_ANIDADA;
 --
 
 
 --apellidos que tienen 2 direcciones en la ciudad de GUADALAJARA
-SELECT ID, APELLIDOS, CURSOR (SELECT count(*) 
-                              FROM  TABLE(DIREC)  
-                              where ciudad ='GUADALAJARA')
-FROM EJEMPLO_TABLA_ANIDADA
-where (SELECT count(*) FROM TABLE(DIREC)              
-       where ciudad ='GUADALAJARA') = 2;
+SELECT ID, APELLIDOS, CURSOR (SELECT count(*) FROM  TABLE(DIREC) where ciudad ='GUADALAJARA')
+FROM EJEMPLO_TABLA_ANIDADA where (SELECT count(*) FROM TABLE(DIREC) where ciudad ='GUADALAJARA') = 2;
 
 --
-SELECT ID, APELLIDOS, (SELECT count(*) FROM TABLE(EJEMPLO_TABLA_ANIDADA.DIREC)  
-                       where ciudad ='GUADALAJARA')
-FROM EJEMPLO_TABLA_ANIDADA
-where (SELECT count(*) FROM TABLE(EJEMPLO_TABLA_ANIDADA.DIREC)  
-       where ciudad ='GUADALAJARA') = 2;
-
+SELECT ID, APELLIDOS, (SELECT count(*) FROM TABLE(EJEMPLO_TABLA_ANIDADA.DIREC) where ciudad ='GUADALAJARA')
+FROM EJEMPLO_TABLA_ANIDADA where (SELECT count(*) FROM TABLE(EJEMPLO_TABLA_ANIDADA.DIREC) where ciudad ='GUADALAJARA') = 2;
 --
 
 --5) CONSULTAS CON SELECT (sin cursores)
 
 --Sin cursores: Utilizando la tabla anidada en la consulta, 
---              la consulta resulta más sencilla:
+--              la consulta resulta mas sencilla:
 
 --apellidos que tienen 2 direcciones en la ciudad de GUADALAJARA
 SELECT ID, APELLIDOS, count(*)
 FROM EJEMPLO_TABLA_ANIDADA T, table(T.DIREC) tt
 where tt.ciudad ='GUADALAJARA' 
-group by ID, APELLIDOS 
-having count(*) = 2;
+group by ID, APELLIDOS;
 
 
 --acceso a filas de la columna contenidas en la tabla anidada
 
 
--- Calle, ciudad y código postal de la persona con ID 1
+-- Calle, ciudad y codigo postal de la persona con ID 1
 
 -- (Calle de la persona con ID 1 
-SELECT  CALLE 
+SELECT CALLE 
 FROM (SELECT T.DIREC 
       FROM EJEMPLO_TABLA_ANIDADA T
-      WHERE ID=1) ;
+      WHERE ID=1) J;
 
 
--- Dirección (Calle, ciudad y código postal) de la persona con ID 1
+
+-- Direccion (Calle, ciudad y codigo postal) de la persona con ID 1
 -- que vive en Guadalajara
 DESC DIRECCION;
 
@@ -193,7 +176,7 @@ WHERE ID=1;
 --Para insertar en la tabla anidada, seleccionamos la tabla anidada deseada desde
 --la tabla contenedora
 
---Insertar una nueva dirección para una persona que ya tenía direcciones asignadas
+--Insertar una nueva direccion para una persona que ya tenia direcciones asignadas
 INSERT INTO TABLE (SELECT DIREC
                    FROM EJEMPLO_TABLA_ANIDADA 
                    WHERE ID = 1) 
@@ -205,8 +188,8 @@ FROM EJEMPLO_TABLA_ANIDADA , TABLE(DIREC) DIRECCION
 WHERE ID=1;
 	
  
---Insertar una dirección para una persona que no tenía asignada ninguna dirección
---pero tenía asignada una tabla anidada DIREC que no es NOT NULL
+--Insertar una direccion para una persona que no tenia asignada ninguna direccion
+--pero tenia asignada una tabla anidada DIREC que no es NOT NULL
 
 SELECT * FROM EJEMPLO_TABLA_ANIDADA;
 --
@@ -227,16 +210,16 @@ INSERT INTO TABLE  --ERROR porque la columna es nula
 VALUES (DIRECCION ('C/Madrid 5', 'OROPESA', 45560));
 
 
---Si la columna DIREC que contiene la tabla anidada es nula y queremos añadir una dirección
+--Si la columna DIREC que contiene la tabla anidada es nula y queremos a�adir una direccion
 --a esa persona, hay que ACTUALIZAR la tabla tupla de la tabla contedora para crear una
---tabla anidada; después podremos insertar en la tabla anidada
+--tabla anidada; despues podremos insertar en la tabla anidada
 
---Actualizamos, para el usuario con código 6, si valor de DIREC creando una tabla anidada
+--Actualizamos, para el usuario con codigo 6, si valor de DIREC creando una tabla anidada
 Update EJEMPLO_TABLA_ANIDADA
 set direc = TABLA_ANIDADA (DIRECCION ('C/Madrid 5', 'OROPESA', 45560))
 Where ID = 6 ;
 
---añado otra direccion más para ese usuario
+--a�ado otra direccion mas para ese usuario
 INSERT INTO TABLE 
   (SELECT DIREC FROM EJEMPLO_TABLA_ANIDADA WHERE ID = 6) 
 VALUES (DIRECCION('C/Toledo 34, 8A', 'GUADALAJARA', 19003) );
@@ -249,7 +232,7 @@ SELECT * FROM USER_NESTED_TABLES;
 
 
 ----------------------------------------
---7) MODIFICACIÓN EN LA TABLA ANIDADA
+--7) MODIFICACION EN LA TABLA ANIDADA
      
 UPDATE TABLE (SELECT DIREC 
               FROM EJEMPLO_TABLA_ANIDADA 
@@ -288,7 +271,7 @@ WHERE PRIMERA.CIUDAD ='GUADALAJARA';
 
 --OBTENER SOLO LAS DIRECCIONES DE GUADALAJARA
 SELECT CALLE, CIUDAD, CODIGO_POST 
-FROM THE( SELECT DIREC FROM EJEMPLO_TABLA_ANIDADA WHERE ID =1)
+FROM ( SELECT DIREC FROM EJEMPLO_TABLA_ANIDADA WHERE ID =1)
 WHERE CIUDAD ='GUADALAJARA';
 
 
@@ -297,7 +280,7 @@ WHERE CIUDAD ='GUADALAJARA';
 
 CREATE OR REPLACE PROCEDURE VER_DIREC(IDENT NUMBER) AS
   CURSOR C1 IS 
-        SELECT CALLE FROM THE 
+        SELECT CALLE FROM
        (SELECT T.DIREC FROM EJEMPLO_TABLA_ANIDADA T WHERE ID = IDENT);
 BEGIN
   FOR I IN C1 LOOP
