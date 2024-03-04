@@ -9,7 +9,7 @@
 --1) DEFINICION DE UNA TABLA QUE CONTIENE UNA TABLA ANIDADA
 
 --La 'TABLA_ANIDADA' es un tipo que permitira almacenar objetos de tipo 'DIRECCION'
-CREATE TYPE TABLA_ANIDADA AS TABLE OF DIRECCION; 
+CREATE TYPE TABLA_ANIDADA AS TABLE OF DIRECCION;
 /
 
 
@@ -20,18 +20,16 @@ CREATE TABLE EJEMPLO_TABLA_ANIDADA (
  APELLIDOS VARCHAR2(35),
  DIREC TABLA_ANIDADA
 ) NESTED TABLE DIREC STORE AS DIREC;
+/
 
 --La clausula 'NESTED TABLE' identifica el nombre de la columna que contendra la tabla anidada.
 --La clausula 'STORE AS' especifica el nombre de la tabla ('DIREC_ANIDADA') en la que se van a almacenar las direcciones que se representan en el atributo 'DIREC' de cualquier objeto de la tabla 'EJEMPLO_TABLA_ANIDADA'. 
-
 
 desc DIRECCION;
 desc direc;
 desc direccion;
 desc tabla_anidada;
-desc EJEMPLO_TABLA_ANIDADA ;
-
-
+desc EJEMPLO_TABLA_ANIDADA;
 
 --2) INSERTAR datos en una tabla y en su tabla anidada
 

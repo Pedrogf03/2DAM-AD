@@ -5,6 +5,7 @@ import hibernate.IncluyeId;
 import hibernate.Reparacion;
 import hibernate.Vehiculo;
 import hibernate.util.HibernateUtil;
+import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
 import org.hibernate.Query;
@@ -58,7 +59,7 @@ public class App {
           String codRep = sc.nextLine();
           System.out.println("Fecha: ");
           String date = sc.nextLine();
-          altaReparacion(new Reparacion(codRep, date), getConceptos());
+          altaReparacion(new Reparacion(codRep, Date.valueOf(date)), getConceptos());
           break;
         case 4:
           System.out.print("Matricula: ");
