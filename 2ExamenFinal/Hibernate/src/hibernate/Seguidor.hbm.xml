@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 04-mar-2024 12:21:34 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Seguidor" table="seguidor" catalog="redsocial" optimistic-lock="version">
+        <id name="idSeguidor" type="int">
+            <column name="idSeguidor" />
+            <generator class="assigned" />
+        </id>
+        <property name="nick" type="string">
+            <column name="nick" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="correo" type="string">
+            <column name="correo" length="100" not-null="true" />
+        </property>
+        <property name="pais" type="string">
+            <column name="pais" length="45" not-null="true" />
+        </property>
+        <set name="lideresSeguidos" table="seguidoreslider" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idSeguidor" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Seguidoreslider" />
+        </set>
+    </class>
+</hibernate-mapping>

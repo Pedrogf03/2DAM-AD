@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 04-mar-2024 12:21:34 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Seguidoreslider" table="seguidoreslider" catalog="redsocial" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.SeguidoresliderId">
+            <key-property name="idLider" type="int">
+                <column name="idLider" />
+            </key-property>
+            <key-property name="idSeguidor" type="int">
+                <column name="idSeguidor" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="lider" class="hibernate.Lider" update="false" insert="false" fetch="select">
+            <column name="idLider" not-null="true" />
+        </many-to-one>
+        <many-to-one name="seguidor" class="hibernate.Seguidor" update="false" insert="false" fetch="select">
+            <column name="idSeguidor" not-null="true" />
+        </many-to-one>
+        <property name="fechaSeguido" type="date">
+            <column name="fecha_seguido" length="10" not-null="true" />
+        </property>
+        <property name="numMegusta" type="int">
+            <column name="numMegusta" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
